@@ -1,0 +1,915 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Follow-Up">
+<meta name="theme-color" content="#07090f">
+<link rel="manifest" href="/manifest.json">
+<link rel="apple-touch-icon" href="/icon.svg">
+<title>Follow-Up</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent;}
+:root{
+  --bg:#07090f;--s1:#0c1017;--s2:#111827;--s3:#162032;
+  --border:#1a2740;--border2:#223050;
+  --cyan:#06b6d4;--purple:#8b5cf6;--green:#10b981;--yellow:#f59e0b;--red:#ef4444;
+  --text:#e8f0fe;--dim:#94a3b8;--muted:#3d5470;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;padding-bottom:80px;overflow-x:hidden;}
+
+/* NAV */
+.nav{position:fixed;bottom:0;left:0;right:0;background:var(--s1);border-top:1px solid var(--border);display:flex;z-index:100;padding-bottom:env(safe-area-inset-bottom,16px);}
+.nb{flex:1;padding:10px 4px 12px;text-align:center;cursor:pointer;border:none;background:transparent;color:var(--muted);font-family:'Inter',sans-serif;font-size:10px;font-weight:600;letter-spacing:0.3px;transition:color 0.2s;display:flex;flex-direction:column;align-items:center;gap:3px;}
+.nb .ic{font-size:20px;}
+.nb.on{color:var(--cyan);}
+
+/* HEADER */
+.hdr{padding:env(safe-area-inset-top,16px) 16px 8px;padding-top:max(env(safe-area-inset-top),16px);display:flex;align-items:center;justify-content:space-between;}
+.hdr h1{font-size:20px;font-weight:800;letter-spacing:-0.5px;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hdr p{font-size:11px;color:var(--muted);}
+.sync-btn{background:transparent;border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:6px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.2s;}
+.sync-btn:active{border-color:var(--cyan);color:var(--cyan);}
+.sync-btn.syncing{border-color:var(--cyan);color:var(--cyan);animation:pulse 1s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+
+/* VIEWS */
+.view{display:none;padding:0 14px;}
+.view.on{display:block;}
+
+/* CARD */
+.card{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.card-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+.card-title::before{content:'';width:3px;height:12px;background:linear-gradient(var(--cyan),var(--purple));border-radius:2px;}
+
+/* IMPORT */
+.drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:28px 16px;text-align:center;cursor:pointer;transition:all 0.2s;background:var(--s2);margin-bottom:12px;}
+.drop-zone:active,.drop-zone.drag{border-color:var(--cyan);background:#06b6d408;}
+.drop-ico{font-size:32px;margin-bottom:8px;}
+.drop-title{font-size:14px;font-weight:600;}
+.drop-sub{font-size:11px;color:var(--muted);margin-top:4px;line-height:1.5;}
+#csv-input{display:none;}
+
+.or-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
+.or-line{flex:1;height:1px;background:var(--border);}
+.or-txt{font-size:11px;color:var(--muted);}
+
+/* FORM */
+.field{margin-bottom:12px;}
+.field label{display:block;font-size:10px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
+.field input,.field select,.field textarea{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none;transition:border-color 0.2s;resize:none;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
+select option{background:var(--s1);}
+.lang-row{display:flex;gap:8px;}
+.lang-btn{flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--s2);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.lang-btn.on{border-color:var(--cyan);background:#06b6d412;color:var(--cyan);}
+
+/* BTNS */
+.btn{width:100%;padding:13px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.18s;}
+.btn-p{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;}
+.btn-p:active{opacity:0.85;}
+.btn-g{background:var(--s2);color:var(--dim);border:1px solid var(--border);margin-top:8px;font-size:13px;padding:11px;}
+
+/* CLIENT LIST */
+.cl-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:border-color 0.15s;}
+.cl-item:active{border-color:var(--cyan);}
+.cl-av{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
+.cl-info{flex:1;min-width:0;}
+.cl-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-sub{font-size:11px;color:var(--muted);margin-top:2px;}
+.prog{height:2px;background:var(--border);border-radius:99px;margin-top:7px;overflow:hidden;}
+.prog-f{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px;transition:width 0.4s;}
+
+/* PILLS */
+.pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:0.4px;border:1px solid;}
+.p-sent{background:#10b98112;color:var(--green);border-color:#10b98130;}
+.p-sch{background:#06b6d412;color:var(--cyan);border-color:#06b6d430;}
+.p-fail{background:#ef444412;color:var(--red);border-color:#ef444430;}
+
+/* PROFILE */
+.profile-hero{background:linear-gradient(135deg,#0c1c35,#111827);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;position:relative;overflow:hidden;}
+.profile-hero::before{content:'';position:absolute;top:-30px;right:-30px;width:120px;height:120px;background:radial-gradient(circle,#06b6d415,transparent 70%);}
+.p-av-lg{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
+.p-name{font-size:20px;font-weight:800;letter-spacing:-0.3px;cursor:pointer;}
+.p-meta{font-size:11px;color:var(--cyan);margin-top:3px;font-weight:500;}
+.p-actions{display:flex;gap:8px;margin-top:14px;}
+.p-btn{flex:1;padding:9px;border-radius:10px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;transition:all 0.15s;}
+
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.info-box{background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:12px;}
+.info-label{font-size:9px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:4px;}
+.info-val{font-size:12px;font-weight:500;color:var(--text);word-break:break-all;}
+.info-box.full{grid-column:1/-1;}
+
+/* SMS */
+.sms-item{background:var(--s2);border:1px solid var(--border);border-radius:13px;padding:14px;margin-bottom:8px;}
+.sms-item.done{border-color:#10b98125;}
+.sms-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.sms-lbl{font-size:11px;font-weight:700;color:var(--dim);}
+.sms-date{font-size:10px;color:var(--cyan);margin-top:2px;}
+.sms-body{font-size:12px;line-height:1.6;color:var(--text);background:var(--s3);border-radius:10px 10px 4px 10px;padding:10px 12px;}
+
+/* PHONE */
+.phone-wrap{display:flex;justify-content:center;margin:10px 0 14px;}
+.phone{width:210px;background:#0a0a0a;border-radius:34px;border:3px solid #1a1a1a;padding:16px 10px 20px;box-shadow:0 20px 50px #00000090;}
+.ph-bar{width:46px;height:4px;background:#1a1a1a;border-radius:99px;margin:0 auto 12px;}
+.ph-screen{background:#000;border-radius:20px;padding:12px 10px;min-height:140px;}
+.ph-name{text-align:center;font-size:9px;color:#444;font-weight:700;letter-spacing:1px;margin-bottom:10px;}
+.ph-bubble{background:#1d4ed8;border-radius:13px 13px 4px 13px;padding:9px 11px;font-size:11px;color:#fff;line-height:1.5;max-width:96%;margin-left:auto;}
+.ph-ts{text-align:right;font-size:8px;color:#333;margin-top:3px;}
+
+/* STATS */
+.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
+.stat-box{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;}
+.stat-n{font-size:30px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.stat-l{font-size:10px;color:var(--muted);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.4px;}
+
+/* SETUP */
+.step{display:flex;gap:12px;margin-bottom:16px;}
+.step-num{width:28px;height:28px;border-radius:8px;background:linear-gradient(135deg,var(--cyan),var(--purple));display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:800;color:#fff;flex-shrink:0;}
+.step-body{flex:1;}
+.step-title{font-size:13px;font-weight:700;margin-bottom:3px;}
+.step-desc{font-size:11px;color:var(--muted);line-height:1.6;}
+.step-desc a{color:var(--cyan);text-decoration:none;}
+.step-input{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:9px 11px;font-size:12px;font-family:'Inter',sans-serif;outline:none;margin-top:6px;}
+.step-input:focus{border-color:var(--cyan);}
+
+.hint-box{background:#06b6d408;border:1px solid #06b6d420;border-radius:10px;padding:12px;margin-bottom:12px;}
+.hint-box code{font-size:10px;color:var(--cyan);line-height:1.8;display:block;}
+
+/* EMPTY */
+.empty{text-align:center;padding:48px 16px;color:var(--muted);}
+.empty-ico{font-size:38px;margin-bottom:10px;}
+.empty p{font-size:13px;font-weight:500;}
+.empty small{font-size:11px;margin-top:4px;display:block;line-height:1.5;}
+
+/* TOAST */
+.toast{position:fixed;bottom:84px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--s2);border:1px solid var(--border2);color:var(--text);padding:9px 18px;border-radius:99px;font-size:12px;font-weight:600;opacity:0;transition:all 0.25s;z-index:300;white-space:nowrap;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+
+/* UP ITEMS */
+.up-item{padding:10px 0;border-bottom:1px solid var(--border);}
+.up-item:last-child{border:none;}
+.up-n{font-size:12px;font-weight:600;}
+.up-d{font-size:10px;color:var(--cyan);margin-top:2px;}
+.up-p{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div>
+    <h1>Follow-Up</h1>
+    <p>Leo Aquino · Reacao Inc</p>
+  </div>
+</div>
+
+<!-- CLIENTS -->
+<div id="v-clients" class="view on">
+  <div id="cl-list"></div>
+  <div id="cl-detail" style="display:none;"></div>
+</div>
+
+<!-- IMPORT -->
+<div id="v-import" class="view">
+  <div class="drop-zone" id="drop-zone" onclick="document.getElementById('csv-input').click()">
+    <div class="drop-ico">📂</div>
+    <div class="drop-title">Import from Meridian</div>
+    <div class="drop-sub">Tap to upload CSV from Ownerville<br>Sales Date · Name · Phone · Email · Address · Notes</div>
+    <input type="file" id="csv-input" accept=".csv,.txt">
+  </div>
+
+  <button class="btn" onclick="clearAllClients()" style="background:#ef444415;color:var(--red);border:1px solid #ef444430;margin-bottom:12px;font-size:13px;padding:11px;">🗑 Clear all & start fresh</button>
+
+  <div class="or-row"><div class="or-line"></div><div class="or-txt">or add manually</div><div class="or-line"></div></div>
+
+  <div class="card">
+    <div class="card-title">Add Client</div>
+
+    <!-- CONTACT PICKER -->
+    <button onclick="importFromContacts()" style="width:100%;padding:11px;border-radius:10px;border:1px solid var(--border2);background:var(--s2);color:var(--cyan);font-size:13px;font-weight:600;cursor:pointer;font-family:'Inter',sans-serif;margin-bottom:14px;display:flex;align-items:center;justify-content:center;gap:8px;">
+      📋 Import from Contacts
+    </button>
+    <div class="or-row" style="margin-bottom:14px;"><div class="or-line"></div><div class="or-txt">or fill manually</div><div class="or-line"></div></div>
+
+    <div class="field"><label>Full Name</label><input id="f-name" type="text" placeholder="Maria Garcia"></div>
+    <div class="field"><label>Phone</label><input id="f-phone" type="tel" placeholder="(562) 555-0000"></div>
+    <div class="field"><label>Email</label><input id="f-email" type="email" placeholder="maria@email.com"></div>
+    <div class="field"><label>📦 Delivery Address (neighbor)</label><input id="f-addr" type="text" placeholder="1234 Main St, Long Beach CA"></div>
+    <div class="field"><label>🏠 Correct Address (client's real door)</label><input id="f-correct-addr" type="text" placeholder="1238 Main St or Unit 3B"></div>
+    <div class="field"><label>Sales Date</label><input id="f-date" type="date"></div>
+    <div class="field"><label>Notes</label><textarea id="f-notes" rows="2" placeholder="Ex: Latino couple, interested in extra lines..."></textarea></div>
+    <div class="field">
+      <label>Language (auto-detected by surname)</label>
+      <div class="lang-row">
+        <button class="lang-btn on" data-l="en" onclick="setLang('en')">🇺🇸 English</button>
+        <button class="lang-btn" data-l="es" onclick="setLang('es')">🇲🇽 Español</button>
+      </div>
+    </div>
+    <button class="btn btn-p" onclick="addManual()">✓ Add Client</button>
+  </div>
+</div>
+
+<!-- STATS -->
+<div id="v-stats" class="view">
+  <div class="stat-grid">
+    <div class="stat-box"><div class="stat-n" id="st-c">0</div><div class="stat-l">Clients</div></div>
+    <div class="stat-box"><div class="stat-n" id="st-s">0</div><div class="stat-l">Copied</div></div>
+    <div class="stat-box"><div class="stat-n" id="st-p">0</div><div class="stat-l">Pending</div></div>
+    <div class="stat-box"><div class="stat-n" id="st-t">0</div><div class="stat-l">Today</div></div>
+  </div>
+  <div class="card">
+    <div class="card-title">Upcoming Messages</div>
+    <div id="upcoming"></div>
+  </div>
+</div>
+
+<nav class="nav">
+  <button class="nb on" onclick="goTab('clients')" id="nb-clients"><span class="ic">👥</span>Clients</button>
+  <button class="nb" onclick="goTab('import')" id="nb-import"><span class="ic">⬆️</span>Import</button>
+  <button class="nb" onclick="goTab('stats')" id="nb-stats"><span class="ic">📊</span>Stats</button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── CONSTANTS ────────────────────────────────────────────────
+const GRADIENTS = [
+  'linear-gradient(135deg,#06b6d4,#3b82f6)',
+  'linear-gradient(135deg,#8b5cf6,#ec4899)',
+  'linear-gradient(135deg,#10b981,#06b6d4)',
+  'linear-gradient(135deg,#f59e0b,#ef4444)',
+  'linear-gradient(135deg,#3b82f6,#8b5cf6)',
+];
+const SPANISH_SURNAMES = ['garcia','hernandez','gonzalez','gonzales','martinez','lopez','rodriguez','perez','sanchez','ramirez','torres','flores','rivera','gomez','diaz','reyes','morales','jimenez','castillo','ruiz','vargas','medina','aguilar','guzman','munoz','mendoza','chavez','alvarez','ramos','romero','herrera','ortiz','cruz','gutierrez','delgado','lara','vega','campos','espinoza','contreras','pena','treto','quintanilla'];
+
+// ── STATE ────────────────────────────────────────────────────
+let clients     = JSON.parse(localStorage.getItem('fu_clients') || '[]');
+let selectedLang = 'en';
+let currentTab  = 'clients';
+let serverURL   = localStorage.getItem('fu_server') || '';
+
+function save()      { localStorage.setItem('fu_clients', JSON.stringify(clients)); }
+function saveConfig(){ serverURL = document.getElementById('cfg-url').value.trim().replace(/\/$/, ''); localStorage.setItem('fu_server', serverURL); }
+function todayISO()  { return new Date().toISOString().split('T')[0]; }
+function gradientFor(i){ return GRADIENTS[i % GRADIENTS.length]; }
+
+// ── DATE HELPERS ─────────────────────────────────────────────
+function addDays(dateStr, days) {
+  const d = new Date(dateStr + 'T12:00:00');
+  d.setDate(d.getDate() + days);
+  return d;
+}
+function fmtDate(d){ return d.toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}); }
+function fmtFull(d){ return fmtDate(d) + ' · 12:00 PM'; }
+
+// ── LANGUAGE ─────────────────────────────────────────────────
+function detectLang(name) {
+  const parts = name.toLowerCase().split(' ');
+  return parts.some(p => SPANISH_SURNAMES.includes(p)) ? 'es' : 'en';
+}
+function greeting() {
+  const h = new Date().getHours();
+  return h < 12 ? {es:'buenos días',en:'good morning'}
+       : h < 18 ? {es:'buenas tardes',en:'good afternoon'}
+       :           {es:'buenas noches',en:'good evening'};
+}
+function setLang(l) {
+  selectedLang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('on', b.dataset.l === l));
+}
+
+// ── BUILD MESSAGES ───────────────────────────────────────────
+function buildMessages(client) {
+  // If notes contains a short word (likely a nickname/real name), use it
+  // e.g. notes = "Jorge" or "Jorge - casal" → first = "Jorge"
+  const notesName = client.notes ? client.notes.trim().split(/[\s\-,]/)[0] : '';
+  const useNotesName = notesName.length >= 2 && notesName.length <= 20 && /^[A-Za-záéíóúÁÉÍÓÚñÑüÜ]+$/.test(notesName);
+  const first = useNotesName ? notesName : client.name.split(' ')[0];
+  const isFem = /a$/i.test(first);
+  const amigo = isFem ? 'mi amiga' : 'mi amigo';
+  const g = greeting();
+  const lang = detectLang(client.name); // always detect by surname — don't trust saved lang
+
+  const T = {
+    es:[
+      `Hola ${first}! Bueno poder ayudarte hoy 😊 Te deseo ${g.es} y me pongo a tu disposición para cualquier duda. Tu paquete llega en 2 días. Aquí estoy! Leo`,
+      `Hola ${first} cómo estamos? Confirmando si te llegó el paquete de Spectrum y cómo va la instalación. Cualquier duda me avisas! Leo`,
+      `Hola ${first} ${amigo}! Cómo va el internet? Ya una semana con Spectrum espero que estés disfrutando la velocidad! Cualquier cosa me llamas. Leo`
+    ],
+    en:[
+      `Hey ${first}! Great helping you today 😊 Wishing you a ${g.en} and I'm here for any questions. Your Spectrum kit arrives in 2 days! Leo`,
+      `Hey ${first} how's it going? Just checking if your Spectrum package arrived and how setup is going. Need anything? Leo`,
+      `Hey ${first}! How's the internet? One week with Spectrum already hope you're loving the speed! Hit me up anytime. Leo`
+    ]
+  };
+  const L = {
+    es:['Venta confirmada','Kit llegó? (Día 2)','Check-in 1 semana'],
+    en:['Sale confirmed','Kit arrived? (Day 2)','1 week check-in']
+  };
+  return [0,2,7].map((offset, i) => ({
+    key: ['sale','kit','week'][i],
+    label: L[lang][i], label_es: L.es[i], label_en: L.en[i],
+    dayOffset: offset,
+    text: T[lang][i], text_es: T.es[i], text_en: T.en[i],
+    activeLang: lang,
+    status: i === 0 ? 'sent' : 'future',
+    date: addDays(client.saleDate, offset).toISOString().split('T')[0],
+    dateDisplay: fmtDate(addDays(client.saleDate, offset)),
+    timeDisplay: fmtFull(addDays(client.saleDate, offset)),
+  }));
+}
+
+// ── CONTACT PICKER ───────────────────────────────────────────
+async function importFromContacts() {
+  // Contact Picker API — supported on iOS 14.5+ in Safari PWA
+  if (!('contacts' in navigator && 'ContactsManager' in window)) {
+    showToast('📋 Fill the form manually — Contact Picker not available in this browser');
+    return;
+  }
+  try {
+    const props = ['name', 'tel'];
+    const opts  = { multiple: false };
+    const [contact] = await navigator.contacts.select(props, opts);
+    if (!contact) return;
+
+    const fullName = contact.name?.[0] || '';
+    const phone    = contact.tel?.[0]  || '';
+
+    if (fullName) document.getElementById('f-name').value  = fullName;
+    if (phone)    document.getElementById('f-phone').value = phone;
+
+    // Auto-detect lang and show it
+    if (fullName) {
+      const lang = detectLang(fullName);
+      setLang(lang);
+      showToast(`✅ ${fullName} imported · ${lang === 'es' ? '🇲🇽 Español' : '🇺🇸 English'} detected`);
+    }
+  } catch(e) {
+    showToast('📋 Fill the form manually');
+  }
+}
+
+// ── MANUAL ADD ───────────────────────────────────────────────
+document.getElementById('f-date').value = todayISO();
+
+function addManual() {
+  const name  = document.getElementById('f-name').value.trim();
+  const phone = document.getElementById('f-phone').value.trim();
+  const email = document.getElementById('f-email').value.trim();
+  const addr  = document.getElementById('f-addr').value.trim();
+  const correctAddr = document.getElementById('f-correct-addr').value.trim();
+  const date  = document.getElementById('f-date').value;
+  const notes = document.getElementById('f-notes').value.trim();
+  if (!name || !phone || !date) { showToast('⚠️ Name, phone and date required'); return; }
+
+  const client = { id: Date.now(), name, phone, email, address: addr, correctAddr, saleDate: date, notes, lang: selectedLang, msgs: [], status: 'Pending' };
+  client.msgs = buildMessages(client);
+  clients.push(client);
+  save();
+  renderClientList();
+  showToast('✅ Client added!');
+  ['f-name','f-phone','f-email','f-addr','f-correct-addr','f-notes'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('f-date').value = todayISO();
+  goTab('clients');
+  syncToServer();
+}
+
+// ── CSV IMPORT ───────────────────────────────────────────────
+const dropZone = document.getElementById('drop-zone');
+const csvInput = document.getElementById('csv-input');
+csvInput.addEventListener('change', e => handleFile(e.target.files[0]));
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag'));
+dropZone.addEventListener('drop', e => { e.preventDefault(); dropZone.classList.remove('drag'); handleFile(e.dataTransfer.files[0]); });
+
+function handleFile(file) {
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    const lines = e.target.result.split('\n').filter(l => l.trim());
+    if (lines.length < 2) { showToast('⚠️ CSV too short'); return; }
+
+    const headers = parseCSVLine(lines[0]).map(h => h.trim().replace(/^["']|["']$/g,'').trim());
+    const col = name => headers.findIndex(h => h.toLowerCase() === name.toLowerCase());
+
+    const iStatus = col('Status'), iDate = col('Sales Date'), iPkg = col('Package');
+    const iName = col('Name'), iPhone = col('Phone'), iEmail = col('Email');
+    const iAddr = col('Address'), iNotes = col('Notes'), iID = col('ID');
+
+    let added = 0, updated = 0;
+    const newClients = [];
+
+    for (let i = 1; i < lines.length; i++) {
+      const cols = parseCSVLine(lines[i]);
+      const name = (cols[iName] || '').trim();
+      if (!name) continue;
+
+      const saleId = (cols[iID] || '').trim();
+      const rawStatus = cols[iStatus] || '';
+      const statusMatch = rawStatus.match(/(Paid|Installed|Pending|Cancelled|Escalated|Charge Back|Disconnect|No TPV|Error)/gi);
+      const status = statusMatch ? statusMatch[statusMatch.length - 1] : 'Pending';
+      const pkg = (cols[iPkg] || '').trim().replace(/\s+/g,' ') || 'Internet GIG 1Gbps';
+
+      const existingIdx = saleId ? clients.findIndex(c => c.saleId === saleId) : -1;
+      if (existingIdx >= 0) { clients[existingIdx].status = status; updated++; continue; }
+
+      const rawNotes = (cols[iNotes] || '').trim();
+      // Extract number from notes if present (e.g. "1238" or "#3B" or "Apt 5")
+      const numMatch = rawNotes.match(/^(#?\d+\w*|apt\.?\s*\w+|unit\s*\w+)/i);
+      const correctAddr = numMatch ? numMatch[0].trim() : '';
+      const notes = rawNotes;
+
+      const client = {
+        id: Date.now() + i, saleId, name,
+        phone:    (cols[iPhone] || '').trim(),
+        email:    (cols[iEmail] || '').trim(),
+        address:  (cols[iAddr]  || '').trim(),
+        correctAddr,
+        saleDate: parseDate((cols[iDate] || '').trim()),
+        notes,
+        plan: pkg, lang: detectLang(name), msgs: [], status
+      };
+      client.msgs = buildMessages(client);
+      clients.push(client);
+      newClients.push(client);
+      added++;
+    }
+
+    save();
+    renderClientList();
+    const msg = [added > 0 && `✅ ${added} new`, updated > 0 && `🔄 ${updated} updated`].filter(Boolean).join(' · ');
+    showToast(msg || '✅ Import done');
+    goTab('clients');
+    if (added > 0 || updated > 0) syncToServer();
+  };
+  reader.readAsText(file);
+}
+
+function parseCSVLine(line) {
+  const r = []; let cur = ''; let inQ = false;
+  for (const c of line) {
+    if (c === '"') { inQ = !inQ; continue; }
+    if (c === ',' && !inQ) { r.push(cur); cur = ''; continue; }
+    cur += c;
+  }
+  r.push(cur);
+  return r;
+}
+
+function parseDate(str) {
+  if (!str) return todayISO();
+  const d = new Date(str);
+  return isNaN(d) ? todayISO() : d.toISOString().split('T')[0];
+}
+
+// ── SERVER SYNC ──────────────────────────────────────────────
+async function syncToServer() {
+  if (!serverURL) return;
+  const btn = document.getElementById('sync-btn');
+  btn.classList.add('syncing');
+  btn.textContent = '⏳';
+  try {
+    const res = await fetch(serverURL + '/api/sync', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ clients })
+    });
+    const data = await res.json();
+    if (data.ok) {
+      btn.textContent = '✅';
+      document.getElementById('sync-status').textContent = `Synced · ${new Date().toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'})}`;
+      // Pull back updated statuses from server
+      await pullFromServer();
+    }
+  } catch(e) {
+    btn.textContent = '❌';
+    document.getElementById('sync-status').textContent = 'Sync failed — offline?';
+  }
+  btn.classList.remove('syncing');
+  setTimeout(() => { btn.textContent = '☁️ Sync'; }, 2000);
+}
+
+async function pullFromServer() {
+  if (!serverURL) return;
+  try {
+    const res = await fetch(serverURL + '/api/clients');
+    const serverClients = await res.json();
+    // Merge server statuses back (server knows what was actually sent)
+    serverClients.forEach(sc => {
+      const local = clients.find(c => c.id === sc.id || c.saleId === sc.saleId);
+      if (!local) return;
+      sc.msgs?.forEach((sm, i) => {
+        if (local.msgs[i] && sm.status === 'sent') {
+          local.msgs[i].status = 'sent';
+          local.msgs[i].sentAt = sm.sentAt;
+          local.msgs[i].twilioSid = sm.twilioSid;
+        }
+        if (local.msgs[i] && sm.status === 'failed') {
+          local.msgs[i].status = 'failed';
+        }
+      });
+    });
+    save();
+    renderClientList();
+    updateStats();
+  } catch(e) {}
+}
+
+async function testConnection() {
+  const url = document.getElementById('cfg-url').value.trim().replace(/\/$/, '');
+  const el = document.getElementById('conn-result');
+  el.textContent = 'Testing...';
+  try {
+    const res = await fetch(url + '/health');
+    const data = await res.json();
+    el.style.color = 'var(--green)';
+    el.textContent = '✅ Connected! Server time: ' + new Date(data.time).toLocaleString();
+    localStorage.setItem('fu_server', url);
+    serverURL = url;
+  } catch(e) {
+    el.style.color = 'var(--red)';
+    el.textContent = '❌ Could not connect. Check URL and try again.';
+  }
+}
+
+async function checkServerStatus() {
+  if (!serverURL) {
+    document.getElementById('server-status').textContent = '⚙️ Not configured — go to Setup tab';
+    return;
+  }
+  try {
+    const res = await fetch(serverURL + '/health');
+    const data = await res.json();
+    document.getElementById('server-status').innerHTML =
+      `<span style="color:var(--green)">🟢 Online</span> · SMS auto-send at 12:00 PM PT · Last check: ${new Date(data.time).toLocaleTimeString()}`;
+  } catch(e) {
+    document.getElementById('server-status').innerHTML =
+      `<span style="color:var(--red)">🔴 Offline</span> · Server not reachable`;
+  }
+}
+
+// ── CLIENT LIST ──────────────────────────────────────────────
+function renderClientList() {
+  const el = document.getElementById('cl-list');
+  if (!clients.length) {
+    el.innerHTML = `<div class="empty"><div class="empty-ico">📱</div><p>No clients yet</p><small>Import CSV from Ownerville or add manually</small></div>`;
+    return;
+  }
+  const sorted = [...clients].sort((a,b) => b.saleDate.localeCompare(a.saleDate));
+  el.innerHTML = sorted.map((c, i) => {
+    const sent  = c.msgs.filter(m => m.status === 'sent').length;
+    const total = c.msgs.length || 3;
+    const pct   = Math.round((sent / total) * 100);
+    const next  = c.msgs.find(m => m.status !== 'sent');
+    const lang  = c.msgs[0]?.activeLang || c.lang || detectLang(c.name);
+    const flag  = lang === 'es' ? '🇲🇽' : '🇺🇸';
+    const sub   = next ? `${flag} Next: ${next.label} · ${next.dateDisplay}` : '✅ All sent';
+    return `
+    <div class="cl-item" onclick="openClient(${c.id})">
+      <div class="cl-av" style="background:${gradientFor(i)}">${c.name[0].toUpperCase()}</div>
+      <div class="cl-info">
+        <div class="cl-name">${c.name}</div>
+        <div class="cl-sub">${sub}</div>
+        <div class="prog"><div class="prog-f" style="width:${pct}%"></div></div>
+      </div>
+      <div style="color:var(--muted);font-size:18px;">›</div>
+    </div>`;
+  }).join('');
+}
+
+// ── CLIENT DETAIL ────────────────────────────────────────────
+function openClient(id) {
+  const c = clients.find(x => x.id === id);
+  const i = clients.indexOf(c);
+  document.getElementById('cl-list').style.display = 'none';
+  const det = document.getElementById('cl-detail');
+  det.style.display = 'block';
+
+  ensureBilingual(c);
+  const activeLang  = c.msgs[0]?.activeLang || detectLang(c.name);
+  const detectedLang= detectLang(c.name);
+  const next = c.msgs.find(m => m.status !== 'sent');
+  const sentCount = c.msgs.filter(m => m.status === 'sent').length;
+
+  det.innerHTML = `
+    <div class="profile-hero">
+      <div class="p-av-lg" style="background:${gradientFor(i)}" id="av-${id}">${c.name[0].toUpperCase()}</div>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <div class="p-name" id="pname-d-${id}" onclick="editName(${id})">${c.name} ✏️</div>
+        <input id="pname-i-${id}" type="text" value="${c.name}" style="display:none;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:8px;padding:6px 10px;font-size:16px;font-weight:700;font-family:'Inter',sans-serif;outline:none;width:100%;" onblur="saveName(${id})" onkeydown="if(event.key==='Enter')saveName(${id})">
+      </div>
+      <div class="p-meta">📅 Sale: ${fmtDate(addDays(c.saleDate,0))} · ${sentCount}/${c.msgs.length} sent</div>
+
+      <div style="display:flex;gap:6px;margin-top:10px;align-items:center;">
+        <span style="font-size:10px;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:0.5px;">Lang:</span>
+        <button id="btn-es-${id}" onclick="switchLang(${id},'es')" style="padding:5px 12px;border-radius:8px;border:1px solid ${activeLang==='es'?'var(--cyan)':'var(--border)'};background:${activeLang==='es'?'#06b6d415':'var(--s2)'};color:${activeLang==='es'?'var(--cyan)':'var(--muted)'};font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🇲🇽 ES</button>
+        <button id="btn-en-${id}" onclick="switchLang(${id},'en')" style="padding:5px 12px;border-radius:8px;border:1px solid ${activeLang==='en'?'var(--cyan)':'var(--border)'};background:${activeLang==='en'?'#06b6d415':'var(--s2)'};color:${activeLang==='en'?'var(--cyan)':'var(--muted)'};font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">🇺🇸 EN</button>
+        <span style="font-size:9px;color:var(--muted);background:var(--s3);padding:2px 6px;border-radius:99px;">${detectedLang==='es'?'🇲🇽':'🇺🇸'} auto</span>
+      </div>
+
+      <div class="p-actions">
+        <button class="p-btn" style="background:#10b98115;color:var(--green);border:1px solid #10b98130;" onclick="markNextSent(${id})">${next?'▶ Mark sent':'✅ Done'}</button>
+        <button class="p-btn" style="background:#06b6d415;color:var(--cyan);border:1px solid #06b6d430;" onclick="resetMsgs(${id})">↺ Reset</button>
+        ${c.phone ? `<a href="tel:${c.phone.replace(/\D/g,'').replace(/^(\d{10})$/,'+1$1')}" class="p-btn" style="background:#8b5cf615;color:#a78bfa;border:1px solid #8b5cf630;text-decoration:none;display:flex;align-items:center;justify-content:center;">📞 Call</a>` : ''}
+        <button class="p-btn" style="background:#ef444415;color:var(--red);border:1px solid #ef444430;" onclick="deleteClient(${id})">🗑</button>
+      </div>
+      <button onclick="completeAndRemove(${id})" style="width:100%;margin-top:10px;padding:11px;border-radius:12px;border:1px solid #10b98140;background:#10b98112;color:var(--green);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">✅ Complete & Remove client</button>
+    </div>
+
+    <div class="info-grid">
+      <div class="info-box"><div class="info-label">📞 Phone</div><div class="info-val">${c.phone||'—'}</div></div>
+      <div class="info-box"><div class="info-label">📅 Sale Date</div><div class="info-val">${fmtDate(addDays(c.saleDate,0))}</div></div>
+      <div class="info-box full"><div class="info-label">📧 Email</div><div class="info-val">${c.email||'—'}</div></div>
+      <div class="info-box full"><div class="info-label">📦 Delivery Address</div><div class="info-val">${c.address||'—'}</div></div>
+      ${c.correctAddr?`<div class="info-box full"><div class="info-label">🏠 Correct Address</div><div class="info-val" style="color:var(--cyan);font-weight:600;">${c.correctAddr}</div></div>`:''}
+      ${c.notes?`<div class="info-box full"><div class="info-label">📝 Notes</div><div class="info-val" style="color:var(--yellow);">${c.notes}</div></div>`:''}
+    </div>
+
+    <div class="phone-wrap">
+      <div class="phone">
+        <div class="ph-bar"></div>
+        <div class="ph-screen">
+          <div class="ph-name">SPECTRUM (LEO)</div>
+          <div class="ph-bubble" id="pb-text">${(next||c.msgs[c.msgs.length-1])?.text||'...'}</div>
+          <div class="ph-ts" id="pb-ts">${(next||c.msgs[c.msgs.length-1])?.timeDisplay||''}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-title">Message Sequence</div>
+    <div id="tl-${id}"></div>
+    <button class="btn btn-g" onclick="backToList()">← Back</button>
+  `;
+  renderTimeline(c);
+}
+
+function ensureBilingual(c) {
+  if (!c.msgs?.length) { c.msgs = buildMessages(c); return; }
+  if (c.msgs[0].text_es && c.msgs[0].text_en) return;
+  const es = buildMessages({...c, lang:'es'});
+  const en = buildMessages({...c, lang:'en'});
+  c.msgs.forEach((m,i) => {
+    if (!m.text_es) m.text_es = es[i]?.text || m.text;
+    if (!m.text_en) m.text_en = en[i]?.text || m.text;
+    if (!m.label_es) m.label_es = es[i]?.label || m.label;
+    if (!m.label_en) m.label_en = en[i]?.label || m.label;
+    if (!m.activeLang) m.activeLang = c.lang || detectLang(c.name);
+  });
+  save();
+}
+
+function switchLang(id, lang) {
+  const c = clients.find(x => x.id === id);
+  ensureBilingual(c);
+  c.msgs.forEach(m => {
+    m.activeLang = lang;
+    m.text  = lang === 'es' ? m.text_es  : m.text_en;
+    m.label = lang === 'es' ? m.label_es : m.label_en;
+  });
+  c.lang = lang;
+  save();
+  syncToServer();
+  renderTimeline(c);
+  const next = c.msgs.find(m => m.status !== 'sent') || c.msgs[c.msgs.length-1];
+  const pb = document.getElementById('pb-text');
+  const ts = document.getElementById('pb-ts');
+  if (pb) pb.textContent = next.text;
+  if (ts) ts.textContent = next.timeDisplay;
+  ['es','en'].forEach(l => {
+    const btn = document.getElementById(`btn-${l}-${id}`);
+    if (!btn) return;
+    const a = l === lang;
+    btn.style.borderColor = a ? 'var(--cyan)' : 'var(--border)';
+    btn.style.background  = a ? '#06b6d415' : 'var(--s2)';
+    btn.style.color       = a ? 'var(--cyan)' : 'var(--muted)';
+  });
+  showToast(lang==='es'?'🇲🇽 Español':'🇺🇸 English');
+}
+
+function renderTimeline(c) {
+  const el = document.getElementById('tl-' + c.id);
+  if (!el || !c.msgs.length) return;
+  el.innerHTML = c.msgs.map((m,i) => {
+    const pillCls = m.status==='sent'?'p-sent':'p-sch';
+    const pillTxt = m.status==='sent'?'✓ Copied':'Pending';
+    return `
+    <div class="sms-item ${m.status==='sent'?'done':''}" id="sms-${c.id}-${i}">
+      <div class="sms-hdr" onclick="previewSMS(${c.id},${i})">
+        <div><div class="sms-lbl">${m.label}</div><div class="sms-date">📅 ${m.timeDisplay}</div></div>
+        <div style="display:flex;gap:6px;align-items:center;">
+          <div class="pill ${pillCls}">${pillTxt}</div>
+          <button onclick="event.stopPropagation();copyMsg(${c.id},${i})" style="background:#10b98115;border:1px solid #10b98130;color:var(--green);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">📋</button>
+          <button onclick="event.stopPropagation();toggleEdit(${c.id},${i})" style="background:#06b6d415;border:1px solid #06b6d430;color:var(--cyan);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">✏️</button>
+        </div>
+      </div>
+      <div id="sv-${c.id}-${i}" class="sms-body" onclick="previewSMS(${c.id},${i})">${m.text}</div>
+      <div id="se-${c.id}-${i}" style="display:none;margin-top:8px;">
+        <textarea id="sta-${c.id}-${i}" rows="4" oninput="updateCount(${c.id},${i})" style="width:100%;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:10px;padding:10px;font-size:12px;font-family:'Inter',sans-serif;outline:none;resize:none;line-height:1.6;">${m.text}</textarea>
+        <div style="text-align:right;font-size:10px;margin-top:3px;"><span id="sc-${c.id}-${i}" style="color:var(--muted)">${m.text.length}</span><span style="color:var(--muted)">/160</span></div>
+        <div style="display:flex;gap:6px;margin-top:6px;">
+          <button onclick="saveEdit(${c.id},${i})" style="flex:1;background:#10b98120;border:1px solid #10b98140;color:var(--green);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">✓ Save</button>
+          <button onclick="toggleEdit(${c.id},${i})" style="flex:1;background:var(--s2);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;">Cancel</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function copyMsg(cId,idx){
+  const c=clients.find(x=>x.id===cId);
+  const m=c.msgs[idx];
+  navigator.clipboard.writeText(m.text).then(()=>{
+    m.status='sent';
+    save();
+    renderTimeline(c);
+    updateStats();
+    showToast('📋 Copied! Open Messages and paste');
+  }).catch(()=>{
+    // Fallback for older iOS
+    const ta=document.createElement('textarea');
+    ta.value=m.text;
+    ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    document.execCommand('copy');
+    document.body.removeChild(ta);
+    m.status='sent';
+    save();
+    renderTimeline(c);
+    updateStats();
+    showToast('📋 Copied! Open Messages and paste');
+  });
+}
+
+function updateCount(cId,idx){
+  const ta=document.getElementById(`sta-${cId}-${idx}`);
+  const n=document.getElementById(`sc-${cId}-${idx}`);
+  if(!ta||!n)return;
+  const len=ta.value.length;
+  n.textContent=len;
+  n.style.color=len>160?'var(--red)':len>140?'var(--yellow)':'var(--muted)';
+}
+function toggleEdit(cId,idx){
+  const v=document.getElementById(`sv-${cId}-${idx}`);
+  const e=document.getElementById(`se-${cId}-${idx}`);
+  const editing=e.style.display!=='none';
+  v.style.display=editing?'block':'none';
+  e.style.display=editing?'none':'block';
+  if(!editing)document.getElementById(`sta-${cId}-${idx}`).focus();
+}
+function saveEdit(cId,idx){
+  const c=clients.find(x=>x.id===cId);
+  const t=document.getElementById(`sta-${cId}-${idx}`).value.trim();
+  if(!t)return;
+  const m=c.msgs[idx];
+  m.text=t;
+  if(m.activeLang==='es') m.text_es=t; else m.text_en=t;
+  save();
+  document.getElementById(`sv-${cId}-${idx}`).textContent=t;
+  toggleEdit(cId,idx);
+  const pb=document.getElementById('pb-text');
+  if(pb)pb.textContent=t;
+  showToast('✅ Saved!');
+}
+function previewSMS(id,idx){
+  const c=clients.find(x=>x.id===id);
+  const m=c.msgs[idx];
+  const pb=document.getElementById('pb-text');
+  const ts=document.getElementById('pb-ts');
+  if(pb)pb.textContent=m.text;
+  if(ts)ts.textContent=m.timeDisplay;
+}
+function markNextSent(id){
+  const c=clients.find(x=>x.id===id);
+  const next=c.msgs.find(m=>m.status!=='sent');
+  if(!next){showToast('✅ All done!');return;}
+  next.status='sent';
+  save();
+  openClient(id);
+  updateStats();
+  showToast('✅ Marked as done!');
+}
+
+function completeAndRemove(id){
+  if(!confirm('Remove this client? This cannot be undone.'))return;
+  clients=clients.filter(x=>x.id!==id);
+  save();
+  backToList();
+  updateStats();
+  showToast('✅ Client completed & removed!');
+}
+function resetMsgs(id){
+  const c=clients.find(x=>x.id===id);
+  c.msgs=buildMessages(c);
+  save();
+  openClient(id);
+  showToast('↺ Reset!');
+}
+function deleteClient(id){
+  if(!confirm('Delete this client?'))return;
+  clients=clients.filter(c=>c.id!==id);
+  save();
+  backToList();
+  showToast('🗑 Deleted');
+}
+function backToList(){
+  document.getElementById('cl-list').style.display='block';
+  document.getElementById('cl-detail').style.display='none';
+  renderClientList();
+}
+function editName(id){
+  document.getElementById('pname-d-'+id).style.display='none';
+  const i=document.getElementById('pname-i-'+id);
+  i.style.display='block';i.focus();i.select();
+}
+function saveName(id){
+  const i=document.getElementById('pname-i-'+id);
+  const n=i.value.trim();
+  if(!n){i.focus();return;}
+  const c=clients.find(x=>x.id===id);
+  c.name=n;save();
+  const av=document.getElementById('av-'+id);
+  if(av)av.textContent=n[0].toUpperCase();
+  i.style.display='none';
+  const d=document.getElementById('pname-d-'+id);
+  d.textContent=n+' ✏️';d.style.display='block';
+  renderClientList();showToast('✅ Name updated!');
+}
+function clearAllClients(){
+  if(!confirm('Clear ALL clients?'))return;
+  clients=[];save();renderClientList();showToast('🗑 Cleared');goTab('clients');
+}
+
+// ── STATS ────────────────────────────────────────────────────
+function updateStats(){
+  let sent=0,pending=0,today=0;
+  const todayStr=todayISO();
+  const upcoming=[];
+  clients.forEach(c=>{
+    c.msgs.forEach(m=>{
+      if(m.status==='sent')sent++;
+      else{pending++;if(m.date===todayStr)today++;upcoming.push({name:c.name,...m});}
+    });
+  });
+  document.getElementById('st-c').textContent=clients.length;
+  document.getElementById('st-s').textContent=sent;
+  document.getElementById('st-p').textContent=pending;
+  document.getElementById('st-t').textContent=today;
+  const ul=document.getElementById('upcoming');
+  if(!upcoming.length){ul.innerHTML=`<div style="font-size:12px;color:var(--muted);padding:8px 0;">No scheduled messages</div>`;return;}
+  upcoming.sort((a,b)=>a.date.localeCompare(b.date));
+  ul.innerHTML=upcoming.slice(0,6).map(u=>`
+    <div class="up-item">
+      <div class="up-n">${u.name} <span style="color:var(--muted);font-weight:400;">· ${u.label}</span></div>
+      <div class="up-d">📅 ${u.timeDisplay}</div>
+      <div class="up-p">${(u.text||'').substring(0,90)}…</div>
+    </div>`).join('');
+}
+
+// ── TABS ─────────────────────────────────────────────────────
+function goTab(tab){
+  currentTab=tab;
+  ['clients','import','stats'].forEach(t=>{
+    document.getElementById('v-'+t).classList.toggle('on',t===tab);
+    document.getElementById('nb-'+t).classList.toggle('on',t===tab);
+  });
+  if(tab==='clients')backToList();
+  if(tab==='stats')updateStats();
+}
+
+// ── TOAST ────────────────────────────────────────────────────
+function showToast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+
+// ── INIT ─────────────────────────────────────────────────────
+const _old = localStorage.getItem('sfu_v3');
+if (_old && !clients.length) {
+  try { clients = JSON.parse(_old); save(); } catch(e) {}
+}
+
+clients.forEach(c => {
+  const detected = detectLang(c.name);
+  if (c.lang !== detected) {
+    c.lang = detected;
+    if (c.msgs?.length) {
+      c.msgs.forEach(m => {
+        m.activeLang = detected;
+        m.text  = detected === 'es' ? (m.text_es || m.text) : (m.text_en || m.text);
+        m.label = detected === 'es' ? (m.label_es || m.label) : (m.label_en || m.label);
+      });
+    }
+  }
+  ensureBilingual(c);
+});
+save();
+renderClientList();
+updateStats();
+</script>
+</body>
+</html>
