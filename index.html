@@ -284,42 +284,43 @@ function setLang(l) {
 
 // ── BUILD MESSAGES ───────────────────────────────────────────
 function buildMessages(client) {
-  // If notes contains a short word (likely a nickname/real name), use it
-  // e.g. notes = "Jorge" or "Jorge - casal" → first = "Jorge"
   const notesName = client.notes ? client.notes.trim().split(/[\s\-,]/)[0] : '';
   const useNotesName = notesName.length >= 2 && notesName.length <= 20 && /^[A-Za-záéíóúÁÉÍÓÚñÑüÜ]+$/.test(notesName);
   const first = useNotesName ? notesName : client.name.split(' ')[0];
   const isFem = /a$/i.test(first);
   const amigo = isFem ? 'mi amiga' : 'mi amigo';
   const g = greeting();
-  const lang = detectLang(client.name); // always detect by surname — don't trust saved lang
+  const lang = detectLang(client.name);
+  const email = client.email || '(email)';
 
   const T = {
     es:[
-      `Hola ${first}! Bueno poder ayudarte hoy 😊 Te deseo ${g.es} y me pongo a tu disposición para cualquier duda. Tu paquete llega en 2 días. Aquí estoy! Leo`,
-      `Hola ${first} cómo estamos? Confirmando si te llegó el paquete de Spectrum y cómo va la instalación. Cualquier duda me avisas! Leo`,
+      `Hola ${first} cómo estamos? Solo para confirmar si ya llegó su aparato nuevo. Así que ya lo tenga conectado por favor avíseme para hacer la activación de su servicio. Leo`,
+      `Perfecto ${first}, ahora ya está todo listo 😊 Descargue la aplicación de My Spectrum e inicie sesión.\n\nUsername: ${email}\nContraseña: @Wifi2026!\n\nCualquier duda me avisa. Leo`,
       `Hola ${first} ${amigo}! Cómo va el internet? Ya una semana con Spectrum espero que estés disfrutando la velocidad! Cualquier cosa me llamas. Leo`
     ],
     en:[
-      `Hey ${first}! Great helping you today 😊 Wishing you a ${g.en} and I'm here for any questions. Your Spectrum kit arrives in 2 days! Leo`,
-      `Hey ${first} how's it going? Just checking if your Spectrum package arrived and how setup is going. Need anything? Leo`,
+      `Hey ${first} how's it going? Just checking if your new Spectrum device arrived. Once you have it connected please let me know so I can activate your service! Leo`,
+      `Perfect ${first}, everything is all set now 😊 Download the My Spectrum app and log in.\n\nUsername: ${email}\nPassword: @Wifi2026!\n\nLet me know if you need anything. Leo`,
       `Hey ${first}! How's the internet? One week with Spectrum already hope you're loving the speed! Hit me up anytime. Leo`
     ]
   };
   const L = {
-    es:['Venta confirmada','Kit llegó? (Día 2)','Check-in 1 semana'],
-    en:['Sale confirmed','Kit arrived? (Day 2)','1 week check-in']
+    es:['Kit llegó? (Día 2)','Activación (Día 2)','Check-in 1 semana'],
+    en:['Kit arrived? (Day 2)','Activation (Day 2)','1 week check-in']
   };
-  return [0,2,7].map((offset, i) => ({
-    key: ['sale','kit','week'][i],
+  const offsets = [2, 2, 7];
+  const keys = ['kit','activation','week'];
+  return keys.map((key, i) => ({
+    key,
     label: L[lang][i], label_es: L.es[i], label_en: L.en[i],
-    dayOffset: offset,
+    dayOffset: offsets[i],
     text: T[lang][i], text_es: T.es[i], text_en: T.en[i],
     activeLang: lang,
-    status: i === 0 ? 'sent' : 'future',
-    date: addDays(client.saleDate, offset).toISOString().split('T')[0],
-    dateDisplay: fmtDate(addDays(client.saleDate, offset)),
-    timeDisplay: fmtFull(addDays(client.saleDate, offset)),
+    status: 'future',
+    date: addDays(client.saleDate, offsets[i]).toISOString().split('T')[0],
+    dateDisplay: fmtDate(addDays(client.saleDate, offsets[i])),
+    timeDisplay: fmtFull(addDays(client.saleDate, offsets[i])),
   }));
 }
 
@@ -621,7 +622,11 @@ function openClient(id) {
     </div>
 
     <div class="info-grid">
-      <div class="info-box"><div class="info-label">📞 Phone</div><div class="info-val">${c.phone||'—'}</div></div>
+      <div class="info-box">
+        <div class="info-label">📞 Phone</div>
+        <div id="phone-display-${id}" class="info-val" onclick="editPhone(${id})" style="cursor:pointer;">${c.phone||'—'} ✏️</div>
+        <input id="phone-input-${id}" type="tel" value="${c.phone||''}" style="display:none;width:100%;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:8px;padding:6px 8px;font-size:12px;font-family:'Inter',sans-serif;outline:none;margin-top:4px;" onblur="savePhone(${id})" onkeydown="if(event.key==='Enter')savePhone(${id})">
+      </div>
       <div class="info-box"><div class="info-label">📅 Sale Date</div><div class="info-val">${fmtDate(addDays(c.saleDate,0))}</div></div>
       <div class="info-box full"><div class="info-label">📧 Email</div><div class="info-val">${c.email||'—'}</div></div>
       <div class="info-box full"><div class="info-label">📦 Delivery Address</div><div class="info-val">${c.address||'—'}</div></div>
@@ -819,6 +824,19 @@ function backToList(){
   document.getElementById('cl-list').style.display='block';
   document.getElementById('cl-detail').style.display='none';
   renderClientList();
+}
+function editPhone(id){
+  document.getElementById('phone-display-'+id).style.display='none';
+  const inp=document.getElementById('phone-input-'+id);
+  inp.style.display='block';inp.focus();inp.select();
+}
+function savePhone(id){
+  const inp=document.getElementById('phone-input-'+id);
+  const newPhone=inp.value.trim();
+  const c=clients.find(x=>x.id===id);
+  c.phone=newPhone;save();
+  openClient(id);
+  showToast('✅ Phone updated!');
 }
 function editName(id){
   document.getElementById('pname-d-'+id).style.display='none';
