@@ -26,7 +26,7 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .nb .ic{font-size:20px;}
 .nb.on{color:var(--cyan);}
 
-.hdr{padding:16px 16px 8px;display:flex;align-items:center;justify-content:space-between;}
+.hdr{padding:16px 16px 8px;}
 .hdr h1{font-size:20px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
 .hdr p{font-size:11px;color:var(--muted);}
 
@@ -37,34 +37,23 @@ body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-h
 .card-title{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.8px;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
 .card-title::before{content:'';width:3px;height:12px;background:linear-gradient(var(--cyan),var(--purple));border-radius:2px;}
 
-.drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:28px 16px;text-align:center;cursor:pointer;background:var(--s2);margin-bottom:12px;}
+.drop-zone{border:2px dashed var(--border2);border-radius:14px;padding:32px 16px;text-align:center;cursor:pointer;background:var(--s2);margin-bottom:12px;}
 .drop-zone:active{border-color:var(--cyan);}
 #csv-input{display:none;}
 
-.or-row{display:flex;align-items:center;gap:10px;margin-bottom:12px;}
-.or-line{flex:1;height:1px;background:var(--border);}
-.or-txt{font-size:11px;color:var(--muted);}
-
-.field{margin-bottom:12px;}
-.field label{display:block;font-size:10px;font-weight:600;color:var(--muted);margin-bottom:5px;text-transform:uppercase;letter-spacing:0.5px;}
-.field input,.field select,.field textarea{width:100%;background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:10px;padding:10px 12px;font-size:13px;font-family:'Inter',sans-serif;outline:none;resize:none;}
-.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--cyan);}
-select option{background:var(--s1);}
-.lang-row{display:flex;gap:8px;}
-.lang-btn{flex:1;padding:9px;border-radius:10px;border:1px solid var(--border);background:var(--s2);color:var(--muted);font-size:12px;font-weight:600;cursor:pointer;text-align:center;font-family:'Inter',sans-serif;}
-.lang-btn.on{border-color:var(--cyan);background:#06b6d412;color:var(--cyan);}
+.search-bar{display:flex;align-items:center;background:var(--s1);border:1px solid var(--border);border-radius:12px;padding:10px 14px;margin-bottom:12px;gap:8px;}
+.search-bar input{flex:1;background:transparent;border:none;color:var(--text);font-size:14px;font-family:'Inter',sans-serif;outline:none;}
+.search-bar input::placeholder{color:var(--muted);}
 
 .btn{width:100%;padding:13px;border-radius:12px;border:none;font-size:14px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
-.btn-p{background:linear-gradient(135deg,var(--cyan),var(--purple));color:#fff;}
 .btn-g{background:var(--s2);color:var(--dim);border:1px solid var(--border);margin-top:8px;font-size:13px;padding:11px;}
 
 .cl-item{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;cursor:pointer;}
 .cl-av{width:42px;height:42px;border-radius:13px;display:flex;align-items:center;justify-content:center;font-size:17px;font-weight:800;color:#fff;flex-shrink:0;}
 .cl-info{flex:1;min-width:0;}
 .cl-name{font-size:14px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
-.cl-sub{font-size:11px;color:var(--muted);margin-top:2px;}
-.prog{height:2px;background:var(--border);border-radius:99px;margin-top:7px;overflow:hidden;}
-.prog-f{height:100%;background:linear-gradient(90deg,var(--cyan),var(--purple));border-radius:99px;}
+.cl-sub{font-size:11px;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.cl-plan{font-size:10px;color:var(--cyan);margin-top:2px;font-weight:500;}
 
 .pill{font-size:9px;font-weight:700;padding:2px 7px;border-radius:99px;text-transform:uppercase;letter-spacing:0.4px;border:1px solid;}
 .p-sent{background:#10b98112;color:var(--green);border-color:#10b98130;}
@@ -73,6 +62,7 @@ select option{background:var(--s1);}
 .profile-hero{background:linear-gradient(135deg,#0c1c35,#111827);border:1px solid var(--border);border-radius:16px;padding:18px;margin-bottom:12px;}
 .p-av-lg{width:52px;height:52px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:22px;font-weight:800;color:#fff;margin-bottom:12px;}
 .p-meta{font-size:11px;color:var(--cyan);margin-top:3px;font-weight:500;}
+.p-plan{font-size:12px;color:var(--yellow);margin-top:4px;font-weight:600;}
 .p-actions{display:flex;gap:8px;margin-top:14px;}
 .p-btn{flex:1;padding:9px;border-radius:10px;border:none;font-size:11px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;}
 
@@ -83,7 +73,6 @@ select option{background:var(--s1);}
 .info-box.full{grid-column:1/-1;}
 
 .sms-item{background:var(--s2);border:1px solid var(--border);border-radius:13px;padding:14px;margin-bottom:8px;}
-.sms-item.done{border-color:#10b98125;}
 .sms-hdr{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
 .sms-lbl{font-size:11px;font-weight:700;color:var(--dim);}
 .sms-date{font-size:10px;color:var(--cyan);margin-top:2px;}
@@ -97,10 +86,21 @@ select option{background:var(--s1);}
 .ph-bubble{background:#1d4ed8;border-radius:13px 13px 4px 13px;padding:9px 11px;font-size:11px;color:#fff;line-height:1.5;max-width:96%;margin-left:auto;white-space:pre-wrap;}
 .ph-ts{text-align:right;font-size:8px;color:#333;margin-top:3px;}
 
-.stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px;}
-.stat-box{background:var(--s1);border:1px solid var(--border);border-radius:14px;padding:14px;}
-.stat-n{font-size:30px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
-.stat-l{font-size:10px;color:var(--muted);margin-top:4px;font-weight:500;text-transform:uppercase;letter-spacing:0.4px;}
+/* STATS */
+.stats-hero{background:var(--s1);border:1px solid var(--border);border-radius:16px;padding:16px;margin-bottom:12px;}
+.stats-total{font-size:42px;font-weight:800;background:linear-gradient(135deg,var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;}
+.stats-label{font-size:11px;color:var(--muted);margin-top:4px;font-weight:500;}
+.stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:12px;}
+.stats-box{border-radius:12px;padding:12px;text-align:center;}
+.stats-box-installed{background:#10b98115;border:1px solid #10b98130;}
+.stats-box-pending{background:#f59e0b15;border:1px solid #f59e0b30;}
+.stats-box-cancelled{background:#ef444415;border:1px solid #ef444430;}
+.stats-n{font-size:26px;font-weight:800;line-height:1;}
+.stats-n-green{color:var(--green);}
+.stats-n-yellow{color:var(--yellow);}
+.stats-n-red{color:var(--red);}
+.stats-sub{font-size:9px;font-weight:600;margin-top:3px;text-transform:uppercase;letter-spacing:0.5px;}
+.stats-pct{font-size:11px;font-weight:600;margin-top:4px;}
 
 .up-item{padding:10px 0;border-bottom:1px solid var(--border);}
 .up-item:last-child{border:none;}
@@ -115,59 +115,64 @@ select option{background:var(--s1);}
 <body>
 
 <div class="hdr">
-  <div>
-    <h1>Follow-Up</h1>
-    <p>Leo Aquino · Reacao Inc</p>
-  </div>
+  <h1>Follow-Up</h1>
+  <p>Leo Aquino · Reacao Inc</p>
 </div>
 
+<!-- CLIENTS -->
 <div id="v-clients" class="view on">
+  <div class="search-bar">
+    <span style="color:var(--muted);font-size:16px;">🔍</span>
+    <input id="search-input" type="text" placeholder="Search client..." oninput="renderList()">
+  </div>
   <div id="cl-list"></div>
   <div id="cl-detail" style="display:none;"></div>
 </div>
 
+<!-- IMPORT -->
 <div id="v-import" class="view">
   <div class="drop-zone" id="drop-zone" onclick="document.getElementById('csv-input').click()">
-    <div style="font-size:32px;margin-bottom:8px;">📂</div>
-    <div style="font-size:14px;font-weight:600;">Import from Meridian</div>
-    <div style="font-size:11px;color:var(--muted);margin-top:4px;">Tap to upload CSV from Ownerville</div>
+    <div style="font-size:40px;margin-bottom:10px;">📂</div>
+    <div style="font-size:15px;font-weight:700;">Import from Meridian</div>
+    <div style="font-size:11px;color:var(--muted);margin-top:6px;line-height:1.6;">Tap to upload CSV from Ownerville<br>Duplicates are detected automatically</div>
     <input type="file" id="csv-input" accept=".csv,.txt">
   </div>
-
-  <button class="btn" onclick="clearAll()" style="background:#ef444415;color:var(--red);border:1px solid #ef444430;margin-bottom:12px;font-size:13px;padding:11px;">Clear all clients</button>
-
-  <div class="or-row"><div class="or-line"></div><div class="or-txt">or add manually</div><div class="or-line"></div></div>
-
-  <div class="card">
-    <div class="card-title">Add Client</div>
-    <div class="field"><label>Full Name</label><input id="f-name" type="text" placeholder="Maria Garcia"></div>
-    <div class="field"><label>Phone</label><input id="f-phone" type="tel" placeholder="(562) 555-0000"></div>
-    <div class="field"><label>Email</label><input id="f-email" type="email" placeholder="maria@email.com"></div>
-    <div class="field"><label>Delivery Address</label><input id="f-addr" type="text" placeholder="1234 Main St, Long Beach CA"></div>
-    <div class="field"><label>Correct Address</label><input id="f-correct-addr" type="text" placeholder="1238 Main St or Unit 3B"></div>
-    <div class="field"><label>Sales Date</label><input id="f-date" type="date"></div>
-    <div class="field"><label>Notes</label><textarea id="f-notes" rows="2" placeholder="Ex: Jorge - casal latinos..."></textarea></div>
-    <div class="field">
-      <label>Language (auto-detected by surname)</label>
-      <div class="lang-row">
-        <button class="lang-btn on" data-l="en" onclick="setLang('en')">US English</button>
-        <button class="lang-btn" data-l="es" onclick="setLang('es')">MX Espanol</button>
-      </div>
-    </div>
-    <button class="btn btn-p" onclick="addManual()">Add Client</button>
-  </div>
+  <button class="btn" onclick="clearAll()" style="background:#ef444415;color:var(--red);border:1px solid #ef444430;font-size:13px;padding:11px;">🗑️ Clear all clients</button>
 </div>
 
+<!-- STATS -->
 <div id="v-stats" class="view">
-  <div class="stat-grid">
-    <div class="stat-box"><div class="stat-n" id="st-c">0</div><div class="stat-l">Clients</div></div>
-    <div class="stat-box"><div class="stat-n" id="st-s">0</div><div class="stat-l">Copied</div></div>
-    <div class="stat-box"><div class="stat-n" id="st-p">0</div><div class="stat-l">Pending</div></div>
-    <div class="stat-box"><div class="stat-n" id="st-t">0</div><div class="stat-l">Today</div></div>
+  <!-- TOTALS -->
+  <div class="stats-hero">
+    <div class="stats-total" id="st-total">0</div>
+    <div class="stats-label">Total clients imported</div>
+    <div class="stats-grid">
+      <div class="stats-box stats-box-installed">
+        <div class="stats-n stats-n-green" id="st-installed">0</div>
+        <div class="stats-sub" style="color:var(--green);">Installed</div>
+        <div class="stats-pct" id="st-installed-pct" style="color:var(--green);">0%</div>
+      </div>
+      <div class="stats-box stats-box-pending">
+        <div class="stats-n stats-n-yellow" id="st-pending">0</div>
+        <div class="stats-sub" style="color:var(--yellow);">Pending</div>
+        <div class="stats-pct" id="st-pending-pct" style="color:var(--yellow);">0%</div>
+      </div>
+      <div class="stats-box stats-box-cancelled">
+        <div class="stats-n stats-n-red" id="st-cancelled">0</div>
+        <div class="stats-sub" style="color:var(--red);">Cancelled</div>
+        <div class="stats-pct" id="st-cancelled-pct" style="color:var(--red);">0%</div>
+      </div>
+    </div>
   </div>
+
+  <!-- WEEKLY REPORT -->
   <div class="card">
-    <div class="card-title">Upcoming</div>
-    <div id="upcoming"></div>
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;">
+      <button onclick="shiftWeek(-1)" style="background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 14px;font-size:16px;cursor:pointer;">←</button>
+      <div id="week-label" style="font-size:12px;font-weight:700;color:var(--cyan);text-align:center;"></div>
+      <button onclick="shiftWeek(1)" style="background:var(--s2);border:1px solid var(--border);color:var(--text);border-radius:8px;padding:6px 14px;font-size:16px;cursor:pointer;">→</button>
+    </div>
+    <div id="week-report"></div>
   </div>
 </div>
 
@@ -180,7 +185,6 @@ select option{background:var(--s1);}
 <div class="toast" id="toast"></div>
 
 <script>
-// ── DATA ─────────────────────────────────────────────────────
 const GRADIENTS = [
   'linear-gradient(135deg,#06b6d4,#3b82f6)',
   'linear-gradient(135deg,#8b5cf6,#ec4899)',
@@ -189,27 +193,22 @@ const GRADIENTS = [
   'linear-gradient(135deg,#3b82f6,#8b5cf6)',
 ];
 
-const SPANISH = ['garcia','hernandez','gonzalez','gonzales','martinez','lopez','rodriguez','perez','sanchez','ramirez','torres','flores','rivera','gomez','diaz','reyes','morales','jimenez','castillo','ruiz','vargas','medina','aguilar','guzman','munoz','mendoza','chavez','alvarez','ramos','romero','herrera','ortiz','cruz','gutierrez','delgado','lara','vega','campos','espinoza','contreras','pena','treto','quintanilla','caliwag'];
+const SPANISH = ['garcia','hernandez','gonzalez','gonzales','martinez','lopez','rodriguez','perez','sanchez','ramirez','torres','flores','rivera','gomez','diaz','reyes','morales','jimenez','castillo','ruiz','vargas','medina','aguilar','guzman','munoz','mendoza','chavez','alvarez','ramos','romero','herrera','ortiz','cruz','gutierrez','delgado','lara','vega','campos','espinoza','contreras','pena','treto','quintanilla','caliwag','rolon','lara','bazan'];
 
 let clients = JSON.parse(localStorage.getItem('fu_clients') || '[]');
-let selLang = 'en';
 
 function save() { localStorage.setItem('fu_clients', JSON.stringify(clients)); }
 function today() { return new Date().toISOString().split('T')[0]; }
 function grad(i) { return GRADIENTS[i % GRADIENTS.length]; }
 
-// ── DATE HELPERS ─────────────────────────────────────────────
 function addDays(dateStr, days) {
   var d = new Date(dateStr + 'T12:00:00');
   d.setDate(d.getDate() + days);
   return d;
 }
-function fmtDate(d) {
-  return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'});
-}
+function fmtDate(d) { return d.toLocaleDateString('en-US', {month:'short', day:'numeric', year:'numeric'}); }
 function fmtFull(d) { return fmtDate(d) + ' · 1:00 PM'; }
 
-// ── LANGUAGE ─────────────────────────────────────────────────
 function detectLang(name) {
   var parts = name.toLowerCase().split(' ');
   for (var i = 0; i < parts.length; i++) {
@@ -218,14 +217,6 @@ function detectLang(name) {
   return 'en';
 }
 
-function setLang(l) {
-  selLang = l;
-  document.querySelectorAll('.lang-btn').forEach(function(b) {
-    b.classList.toggle('on', b.dataset.l === l);
-  });
-}
-
-// ── MESSAGES ─────────────────────────────────────────────────
 function buildMsgs(client) {
   var notesRaw = client.notes ? client.notes.trim() : '';
   var notesFirst = notesRaw.split(/[\s\-,]/)[0];
@@ -261,15 +252,10 @@ function buildMsgs(client) {
     var d = addDays(client.saleDate, offsets[i]);
     return {
       key: key,
-      label: Lbl[lang][i],
-      label_es: Lbl.es[i],
-      label_en: Lbl.en[i],
+      label: Lbl[lang][i], label_es: Lbl.es[i], label_en: Lbl.en[i],
       dayOffset: offsets[i],
-      text: T[lang][i],
-      text_es: T.es[i],
-      text_en: T.en[i],
+      text: T[lang][i], text_es: T.es[i], text_en: T.en[i],
       activeLang: lang,
-      status: 'future',
       date: d.toISOString().split('T')[0],
       dateDisplay: fmtDate(d),
       timeDisplay: key === 'activation' ? fmtDate(d) + ' · Call client' : fmtFull(d)
@@ -290,7 +276,7 @@ function ensureBilingual(c) {
   });
 }
 
-// ── NOTIFICATIONS ─────────────────────────────────────────────
+// NOTIFICATIONS
 function scheduleNotifs(client) {
   if (!('Notification' in window) || Notification.permission !== 'granted') return;
   var first = client.name.split(' ')[0];
@@ -321,21 +307,12 @@ function checkNotifs() {
   notifs.forEach(function(n) {
     if (n.time <= now && n.time >= now - 3600000) {
       new Notification('Follow-Up · Spectrum', { body: n.msg, tag: n.clientId + '-' + n.day });
-    } else if (n.time > now) {
-      keep.push(n);
-    }
+    } else if (n.time > now) { keep.push(n); }
   });
   localStorage.setItem('fu_notifs', JSON.stringify(keep));
 }
 
-function requestNotifPerm() {
-  if (!('Notification' in window)) return;
-  if (Notification.permission === 'default') {
-    Notification.requestPermission();
-  }
-}
-
-// ── CSV IMPORT ─────────────────────────────────────────────────
+// CSV IMPORT
 document.getElementById('csv-input').addEventListener('change', function(e) { handleFile(e.target.files[0]); });
 document.getElementById('drop-zone').addEventListener('dragover', function(e) { e.preventDefault(); });
 document.getElementById('drop-zone').addEventListener('drop', function(e) { e.preventDefault(); handleFile(e.dataTransfer.files[0]); });
@@ -375,9 +352,55 @@ function handleFile(file) {
     var iDate   = col('sales date');
     var iNotes  = col('notes');
     var iID     = col('id');
-    var iStatus = col('status');
+    var iStatus    = col('status');
+    var iPkg       = col('package');
+    var iPIA       = col('pia');
+    var iPkgClient = col('package (from client)');
 
-    var added = 0, updated = 0;
+    var added = 0, updated = 0, dupes = 0;
+
+    function parseStatus(rawStatus, pkgClient) {
+      var pkg = (pkgClient || '').trim();
+      // Empty Package (From Client) = brand new sale, not yet processed = Pending
+      if (!pkg) return 'Pending';
+      var src = pkg + ' ' + (rawStatus || '').trim();
+      if (/\(installed\)/i.test(src)) return 'Installed';
+      if (/\(pending\)/i.test(src)) return 'Pending';
+      if (/\(cancel/i.test(src) || /charge.back|disconnect|no.tpv|escalat/i.test(src)) return 'Cancelled';
+      if (/installed|paid/i.test(src)) return 'Installed';
+      if (/cancel|charge.back|disconnect|no.tpv|error|escalat/i.test(src)) return 'Cancelled';
+      return 'Pending';
+    }
+
+    // Smart plan formatter
+    function formatPlan(pkg, pia) {
+      var internet = '';
+      var cable = false;
+      if (!pkg) return '';
+
+      // Detect cable/TV
+      if (/tv|cable|c10/i.test(pkg)) cable = true;
+
+      // Detect internet type
+      if (/ultra/i.test(pkg)) internet = 'Internet Ultra';
+      else if (/gig|i10/i.test(pkg)) internet = 'Internet GIG';
+      else if (/i10/i.test(pkg)) internet = 'Internet GIG';
+      else internet = 'Internet';
+
+      var result = cable ? internet + ' + Cable' : internet;
+
+      // PIA
+      if (pia) {
+        var piaClean = pia.trim();
+        if (/yes/i.test(piaClean)) {
+          var valMatch = piaClean.match(/\$[\d,.]+/);
+          result += ' · PIA: Yes' + (valMatch ? ' ' + valMatch[0] : '');
+        } else if (/no/i.test(piaClean)) {
+          result += ' · PIA: No';
+        }
+      }
+      return result;
+    }
 
     for (var i = 1; i < lines.length; i++) {
       var cols = parseCSVLine(lines[i]);
@@ -385,13 +408,35 @@ function handleFile(file) {
       if (!name) continue;
 
       var saleId = iID >= 0 ? (cols[iID] || '').trim() : '';
-      var existIdx = saleId ? clients.findIndex(function(c) { return c.saleId === saleId; }) : -1;
+
+      // Dedup by saleId (primary) or name+date (fallback)
+      var saleDate = parseDate(iDate >= 0 ? (cols[iDate] || '').trim() : '');
+      var existIdx = -1;
+      if (saleId) {
+        existIdx = clients.findIndex(function(c) { return c.saleId === saleId; });
+      }
+      if (existIdx < 0) {
+        existIdx = clients.findIndex(function(c) { return c.name === name && c.saleDate === saleDate; });
+      }
 
       var rawStatus = iStatus >= 0 ? (cols[iStatus] || '') : '';
-      var sm = rawStatus.match(/(Paid|Installed|Pending|Cancelled)/gi);
-      var status = sm ? sm[sm.length - 1] : 'Pending';
+      var pkgClient = iPkgClient >= 0 ? (cols[iPkgClient] || '') : '';
+      var status = parseStatus(rawStatus, pkgClient);
 
-      if (existIdx >= 0) { clients[existIdx].status = status; updated++; continue; }
+      var pkg = iPkg >= 0 ? (cols[iPkg] || '').trim().replace(/\s+/g,' ') : '';
+      var pia = iPIA >= 0 ? (cols[iPIA] || '').trim() : '';
+      var planFormatted = formatPlan(pkg, pia);
+
+      if (existIdx >= 0) {
+        clients[existIdx].status = status;
+        if (planFormatted) clients[existIdx].plan = planFormatted;
+        updated++;
+        continue;
+      }
+
+      // Check for duplicate by name only (different date — different entry, allow)
+      var nameDupe = clients.findIndex(function(c) { return c.name === name && c.saleDate === saleDate; });
+      if (nameDupe >= 0) { dupes++; continue; }
 
       var rawNotes = iNotes >= 0 ? (cols[iNotes] || '').trim() : '';
       var numMatch = rawNotes.match(/^(#?\d+\w*|apt\.?\s*\w+|unit\s*\w+)/i);
@@ -405,8 +450,9 @@ function handleFile(file) {
         email: iEmail >= 0 ? (cols[iEmail] || '').trim() : '',
         address: iAddr >= 0 ? (cols[iAddr] || '').trim() : '',
         correctAddr: correctAddr,
-        saleDate: parseDate(iDate >= 0 ? (cols[iDate] || '').trim() : ''),
+        saleDate: saleDate,
         notes: rawNotes,
+        plan: planFormatted,
         lang: detectLang(name),
         msgs: [],
         status: status
@@ -419,75 +465,52 @@ function handleFile(file) {
 
     save();
     renderList();
+    updateStats();
     var msg = [];
     if (added > 0) msg.push(added + ' new');
     if (updated > 0) msg.push(updated + ' updated');
+    if (dupes > 0) msg.push(dupes + ' duplicates skipped');
     showToast(msg.length ? msg.join(' · ') : 'Import done');
     goTab('clients');
   };
   reader.readAsText(file);
 }
 
-// ── MANUAL ADD ─────────────────────────────────────────────────
-document.getElementById('f-date').value = today();
-
-function addManual() {
-  var name  = document.getElementById('f-name').value.trim();
-  var phone = document.getElementById('f-phone').value.trim();
-  var email = document.getElementById('f-email').value.trim();
-  var addr  = document.getElementById('f-addr').value.trim();
-  var caddr = document.getElementById('f-correct-addr').value.trim();
-  var date  = document.getElementById('f-date').value;
-  var notes = document.getElementById('f-notes').value.trim();
-  if (!name || !phone || !date) { showToast('Name, phone and date required'); return; }
-
-  var client = {
-    id: Date.now(), name: name, phone: phone, email: email,
-    address: addr, correctAddr: caddr, saleDate: date,
-    notes: notes, lang: selLang, msgs: [], status: 'Pending'
-  };
-  client.msgs = buildMsgs(client);
-  clients.push(client);
-  save();
-  scheduleNotifs(client);
-  renderList();
-  showToast('Client added!');
-  ['f-name','f-phone','f-email','f-addr','f-correct-addr','f-notes'].forEach(function(id) {
-    document.getElementById(id).value = '';
-  });
-  document.getElementById('f-date').value = today();
-  goTab('clients');
-}
-
-// ── CLIENT LIST ─────────────────────────────────────────────────
+// CLIENT LIST
 function renderList() {
   var el = document.getElementById('cl-list');
+  var query = (document.getElementById('search-input').value || '').toLowerCase().trim();
   if (!clients.length) {
-    el.innerHTML = '<div class="empty"><div class="empty-ico">📱</div><p>No clients yet</p></div>';
+    el.innerHTML = '<div class="empty"><div class="empty-ico">📱</div><p>No clients yet</p><p style="font-size:11px;margin-top:6px;">Import CSV from Ownerville</p></div>';
     return;
   }
   var sorted = clients.slice().sort(function(a, b) { return b.saleDate.localeCompare(a.saleDate); });
-  el.innerHTML = sorted.map(function(c, i) {
-    var sent  = c.msgs.filter(function(m) { return m.status === 'sent'; }).length;
-    var total = c.msgs.length || 3;
-    var pct   = Math.round((sent / total) * 100);
-    var next  = c.msgs.find(function(m) { return m.status !== 'sent'; });
-    var lang  = c.msgs[0] ? c.msgs[0].activeLang : c.lang;
-    var flag  = lang === 'es' ? 'MX' : 'US';
-    var sub   = next ? flag + ' · Next: ' + next.label + ' · ' + next.dateDisplay : 'All done';
+  var filtered = query ? sorted.filter(function(c) { return c.name.toLowerCase().indexOf(query) >= 0; }) : sorted;
+
+  if (!filtered.length) {
+    el.innerHTML = '<div class="empty"><div class="empty-ico">🔍</div><p>No results for "' + query + '"</p></div>';
+    return;
+  }
+
+  el.innerHTML = filtered.map(function(c, i) {
+    var lang = c.msgs[0] ? c.msgs[0].activeLang : c.lang;
+    var flag = lang === 'es' ? 'MX' : 'US';
+    var next = c.msgs.find(function(m) { return !m.copied; });
+    var sub = next ? flag + ' · ' + next.label + ' · ' + next.dateDisplay : flag + ' · All messages sent';
+    var planShort = c.plan ? c.plan.replace(/\(.*?\)/g,'').trim().substring(0,30) : '';
     return '<div class="cl-item" onclick="openClient(' + c.id + ')">' +
       '<div class="cl-av" style="background:' + grad(i) + '">' + c.name[0].toUpperCase() + '</div>' +
       '<div class="cl-info">' +
         '<div class="cl-name">' + c.name + '</div>' +
         '<div class="cl-sub">' + sub + '</div>' +
-        '<div class="prog"><div class="prog-f" style="width:' + pct + '%"></div></div>' +
+        (planShort ? '<div class="cl-plan">' + planShort + '</div>' : '') +
       '</div>' +
       '<div style="color:var(--muted);font-size:18px;">›</div>' +
-      '</div>';
+    '</div>';
   }).join('');
 }
 
-// ── CLIENT DETAIL ─────────────────────────────────────────────
+// CLIENT DETAIL
 function openClient(id) {
   var c = clients.find(function(x) { return x.id === id; });
   var idx = clients.indexOf(c);
@@ -498,9 +521,11 @@ function openClient(id) {
   ensureBilingual(c);
   var activeLang = c.msgs[0] ? c.msgs[0].activeLang : detectLang(c.name);
   var detected = detectLang(c.name);
-  var next = c.msgs.find(function(m) { return m.status !== 'sent'; });
-  var sent = c.msgs.filter(function(m) { return m.status === 'sent'; }).length;
+  var first = c.msgs[0] ? c.msgs[0].text : '';
   var phoneFormatted = c.phone ? c.phone.replace(/\D/g, '').replace(/^(\d{10})$/, '+1$1') : '';
+
+  // Status color
+  var statusColor = c.status === 'Installed' ? 'var(--green)' : c.status === 'Cancelled' ? 'var(--red)' : 'var(--yellow)';
 
   det.innerHTML =
     '<div class="profile-hero">' +
@@ -509,46 +534,46 @@ function openClient(id) {
         '<div id="pname-d-' + id + '" style="font-size:20px;font-weight:800;cursor:pointer;" onclick="editName(' + id + ')">' + c.name + ' ✏️</div>' +
         '<input id="pname-i-' + id + '" type="text" value="' + c.name + '" style="display:none;width:100%;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:8px;padding:6px 10px;font-size:16px;font-weight:700;font-family:Inter,sans-serif;outline:none;" onblur="saveName(' + id + ')" onkeydown="if(event.key===\'Enter\')saveName(' + id + ')">' +
       '</div>' +
-      '<div class="p-meta">Sale: ' + fmtDate(addDays(c.saleDate, 0)) + ' · ' + sent + '/' + c.msgs.length + ' done</div>' +
+      '<div class="p-meta">📅 Sale: ' + fmtDate(addDays(c.saleDate, 0)) + ' · <span style="color:' + statusColor + ';font-weight:700;">' + (c.status || 'Pending') + '</span></div>' +
+      (c.plan ? '<div class="p-plan">📦 ' + c.plan.replace('· PIA: Yes', '· <span style="color:var(--green)">PIA: Yes</span>').replace('· PIA: No', '· <span style="color:var(--muted)">PIA: No</span>') + '</div>' : '') +
       '<div style="display:flex;gap:6px;margin-top:10px;align-items:center;">' +
         '<span style="font-size:10px;color:var(--muted);font-weight:600;">LANG:</span>' +
-        '<button id="btn-es-' + id + '" onclick="switchLang(' + id + ',\'es\')" style="padding:5px 12px;border-radius:8px;border:1px solid ' + (activeLang==='es'?'var(--cyan)':'var(--border)') + ';background:' + (activeLang==='es'?'#06b6d415':'var(--s2)') + ';color:' + (activeLang==='es'?'var(--cyan)':'var(--muted)') + ';font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">MX ES</button>' +
-        '<button id="btn-en-' + id + '" onclick="switchLang(' + id + ',\'en\')" style="padding:5px 12px;border-radius:8px;border:1px solid ' + (activeLang==='en'?'var(--cyan)':'var(--border)') + ';background:' + (activeLang==='en'?'#06b6d415':'var(--s2)') + ';color:' + (activeLang==='en'?'var(--cyan)':'var(--muted)') + ';font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">US EN</button>' +
+        '<button id="btn-es-' + id + '" onclick="switchLang(' + id + ',\'es\')" style="padding:5px 12px;border-radius:8px;border:1px solid ' + (activeLang==='es'?'var(--cyan)':'var(--border)') + ';background:' + (activeLang==='es'?'#06b6d415':'var(--s2)') + ';color:' + (activeLang==='es'?'var(--cyan)':'var(--muted)') + ';font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🇲🇽 ES</button>' +
+        '<button id="btn-en-' + id + '" onclick="switchLang(' + id + ',\'en\')" style="padding:5px 12px;border-radius:8px;border:1px solid ' + (activeLang==='en'?'var(--cyan)':'var(--border)') + ';background:' + (activeLang==='en'?'#06b6d415':'var(--s2)') + ';color:' + (activeLang==='en'?'var(--cyan)':'var(--muted)') + ';font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">🇺🇸 EN</button>' +
         '<span style="font-size:9px;color:var(--muted);background:var(--s3);padding:2px 6px;border-radius:99px;">' + detected + ' auto</span>' +
       '</div>' +
       '<div class="p-actions">' +
-        '<button class="p-btn" style="background:#10b98115;color:var(--green);border:1px solid #10b98130;" onclick="markSent(' + id + ')">' + (next ? 'Mark sent' : 'All done') + '</button>' +
-        '<button class="p-btn" style="background:#06b6d415;color:var(--cyan);border:1px solid #06b6d430;" onclick="resetMsgs(' + id + ')">Reset</button>' +
-        (phoneFormatted ? '<a href="tel:' + phoneFormatted + '" class="p-btn" style="background:#8b5cf615;color:#a78bfa;border:1px solid #8b5cf630;text-decoration:none;display:flex;align-items:center;justify-content:center;">Call</a>' : '') +
+        '<button class="p-btn" style="background:#06b6d415;color:var(--cyan);border:1px solid #06b6d430;" onclick="resetMsgs(' + id + ')">🔄 Reset</button>' +
+        (phoneFormatted ? '<a href="tel:' + phoneFormatted + '" class="p-btn" style="background:#8b5cf615;color:#a78bfa;border:1px solid #8b5cf630;text-decoration:none;display:flex;align-items:center;justify-content:center;">📞 Call</a>' : '') +
+        '<button class="p-btn" style="background:#ef444415;color:var(--red);border:1px solid #ef444430;" onclick="completeRemove(' + id + ')">🗑️ Remove</button>' +
       '</div>' +
-      '<button onclick="completeRemove(' + id + ')" style="width:100%;margin-top:10px;padding:11px;border-radius:12px;border:1px solid #10b98140;background:#10b98112;color:var(--green);font-size:13px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Complete & Remove client</button>' +
     '</div>' +
 
     '<div class="info-grid">' +
-      '<div class="info-box"><div class="info-label">Phone</div>' +
+      '<div class="info-box"><div class="info-label">📞 Phone</div>' +
         '<div id="phone-d-' + id + '" class="info-val" style="cursor:pointer;" onclick="editPhone(' + id + ')">' + (c.phone || '—') + ' ✏️</div>' +
         '<input id="phone-i-' + id + '" type="tel" value="' + (c.phone || '') + '" style="display:none;width:100%;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:8px;padding:6px 8px;font-size:12px;font-family:Inter,sans-serif;outline:none;margin-top:4px;" onblur="savePhone(' + id + ')" onkeydown="if(event.key===\'Enter\')savePhone(' + id + ')">' +
       '</div>' +
-      '<div class="info-box"><div class="info-label">Sale Date</div><div class="info-val">' + fmtDate(addDays(c.saleDate, 0)) + '</div></div>' +
-      '<div class="info-box full"><div class="info-label">Email</div><div class="info-val">' + (c.email || '—') + '</div></div>' +
-      '<div class="info-box full"><div class="info-label">Delivery Address</div><div class="info-val">' + (c.address || '—') + '</div></div>' +
-      (c.correctAddr ? '<div class="info-box full"><div class="info-label">Correct Address</div><div class="info-val" style="color:var(--cyan);font-weight:600;">' + c.correctAddr + '</div></div>' : '') +
-      (c.notes ? '<div class="info-box full"><div class="info-label">Notes</div><div class="info-val" style="color:var(--yellow);">' + c.notes + '</div></div>' : '') +
+      '<div class="info-box"><div class="info-label">📅 Sale Date</div><div class="info-val">' + fmtDate(addDays(c.saleDate, 0)) + '</div></div>' +
+      '<div class="info-box full"><div class="info-label">📧 Email</div><div class="info-val">' + (c.email || '—') + '</div></div>' +
+      '<div class="info-box full"><div class="info-label">📦 Delivery Address</div><div class="info-val">' + (c.address || '—') + '</div></div>' +
+      (c.correctAddr ? '<div class="info-box full"><div class="info-label">🏠 Correct Address</div><div class="info-val" style="color:var(--cyan);font-weight:600;">' + c.correctAddr + '</div></div>' : '') +
+      (c.notes ? '<div class="info-box full"><div class="info-label">📝 Notes</div><div class="info-val" style="color:var(--yellow);">' + c.notes + '</div></div>' : '') +
     '</div>' +
 
     '<div class="phone-wrap">' +
       '<div class="phone"><div class="ph-bar"></div>' +
         '<div class="ph-screen">' +
           '<div class="ph-name">SPECTRUM (LEO)</div>' +
-          '<div class="ph-bubble" id="pb-text">' + ((next || c.msgs[c.msgs.length - 1]) ? (next || c.msgs[c.msgs.length - 1]).text : '...') + '</div>' +
-          '<div class="ph-ts" id="pb-ts">' + ((next || c.msgs[c.msgs.length - 1]) ? (next || c.msgs[c.msgs.length - 1]).timeDisplay : '') + '</div>' +
+          '<div class="ph-bubble" id="pb-text">' + (c.msgs[0] ? c.msgs[0].text : '...') + '</div>' +
+          '<div class="ph-ts" id="pb-ts">' + (c.msgs[0] ? c.msgs[0].timeDisplay : '') + '</div>' +
         '</div>' +
       '</div>' +
     '</div>' +
 
-    '<div class="card-title">Message Sequence</div>' +
+    '<div class="card-title">💬 Messages</div>' +
     '<div id="tl-' + id + '"></div>' +
-    '<button class="btn btn-g" onclick="backToList()">Back</button>';
+    '<button class="btn btn-g" onclick="backToList()">← Back</button>';
 
   renderTimeline(c);
 }
@@ -557,16 +582,12 @@ function renderTimeline(c) {
   var el = document.getElementById('tl-' + c.id);
   if (!el) return;
   el.innerHTML = c.msgs.map(function(m, i) {
-    var pillCls = m.status === 'sent' ? 'p-sent' : 'p-sch';
-    var pillTxt = m.status === 'sent' ? 'Copied' : 'Pending';
-    var done = m.status === 'sent' ? ' done' : '';
-    return '<div class="sms-item' + done + '" id="sms-' + c.id + '-' + i + '">' +
+    return '<div class="sms-item" id="sms-' + c.id + '-' + i + '">' +
       '<div class="sms-hdr" onclick="previewSMS(' + c.id + ',' + i + ')">' +
         '<div><div class="sms-lbl">' + m.label + '</div><div class="sms-date">' + m.timeDisplay + '</div></div>' +
         '<div style="display:flex;gap:6px;align-items:center;">' +
-          '<div class="pill ' + pillCls + '">' + pillTxt + '</div>' +
-          '<button onclick="event.stopPropagation();copyMsg(' + c.id + ',' + i + ')" style="background:#10b98115;border:1px solid #10b98130;color:var(--green);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Copy</button>' +
-          '<button onclick="event.stopPropagation();toggleEdit(' + c.id + ',' + i + ')" style="background:#06b6d415;border:1px solid #06b6d430;color:var(--cyan);border-radius:6px;padding:3px 8px;font-size:10px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Edit</button>' +
+          '<button onclick="event.stopPropagation();copyMsg(' + c.id + ',' + i + ')" style="background:#10b98115;border:1px solid #10b98130;color:var(--green);border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">📋 Copy</button>' +
+          '<button onclick="event.stopPropagation();toggleEdit(' + c.id + ',' + i + ')" style="background:#06b6d415;border:1px solid #06b6d430;color:var(--cyan);border-radius:6px;padding:4px 10px;font-size:10px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">✏️ Edit</button>' +
         '</div>' +
       '</div>' +
       '<div id="sv-' + c.id + '-' + i + '" class="sms-body">' + m.text + '</div>' +
@@ -574,8 +595,8 @@ function renderTimeline(c) {
         '<textarea id="sta-' + c.id + '-' + i + '" rows="4" oninput="updateCount(' + c.id + ',' + i + ')" style="width:100%;background:var(--s3);border:1px solid var(--cyan);color:var(--text);border-radius:10px;padding:10px;font-size:12px;font-family:Inter,sans-serif;outline:none;resize:none;line-height:1.6;">' + m.text + '</textarea>' +
         '<div style="text-align:right;font-size:10px;margin-top:3px;"><span id="sc-' + c.id + '-' + i + '" style="color:var(--muted)">' + m.text.length + '</span>/160</div>' +
         '<div style="display:flex;gap:6px;margin-top:6px;">' +
-          '<button onclick="saveEdit(' + c.id + ',' + i + ')" style="flex:1;background:#10b98120;border:1px solid #10b98140;color:var(--green);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Save</button>' +
-          '<button onclick="toggleEdit(' + c.id + ',' + i + ')" style="flex:1;background:var(--s2);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:7px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Cancel</button>' +
+          '<button onclick="saveEdit(' + c.id + ',' + i + ')" style="flex:1;background:#10b98120;border:1px solid #10b98140;color:var(--green);border-radius:8px;padding:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">✓ Save</button>' +
+          '<button onclick="toggleEdit(' + c.id + ',' + i + ')" style="flex:1;background:var(--s2);border:1px solid var(--border);color:var(--muted);border-radius:8px;padding:8px;font-size:11px;font-weight:700;cursor:pointer;font-family:Inter,sans-serif;">Cancel</button>' +
         '</div>' +
       '</div>' +
     '</div>';
@@ -585,27 +606,20 @@ function renderTimeline(c) {
 function copyMsg(cId, idx) {
   var c = clients.find(function(x) { return x.id === cId; });
   var m = c.msgs[idx];
-  navigator.clipboard.writeText(m.text).then(function() {
-    m.status = 'sent';
-    save();
-    renderTimeline(c);
-    updateStats();
-    showToast('Copied! Paste in Messages app');
-  }).catch(function() {
+  var done = function() { showToast('📋 Copied! Paste in Messages'); };
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(m.text).then(done).catch(function() {
+      var ta = document.createElement('textarea');
+      ta.value = m.text; ta.style.position='fixed'; ta.style.opacity='0';
+      document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+      document.body.removeChild(ta); done();
+    });
+  } else {
     var ta = document.createElement('textarea');
-    ta.value = m.text;
-    ta.style.position = 'fixed';
-    ta.style.opacity = '0';
-    document.body.appendChild(ta);
-    ta.select();
-    document.execCommand('copy');
-    document.body.removeChild(ta);
-    m.status = 'sent';
-    save();
-    renderTimeline(c);
-    updateStats();
-    showToast('Copied!');
-  });
+    ta.value = m.text; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select(); document.execCommand('copy');
+    document.body.removeChild(ta); done();
+  }
 }
 
 function previewSMS(cId, idx) {
@@ -647,7 +661,7 @@ function saveEdit(cId, idx) {
   toggleEdit(cId, idx);
   var pb = document.getElementById('pb-text');
   if (pb) pb.textContent = t;
-  showToast('Saved!');
+  showToast('✅ Saved!');
 }
 
 function switchLang(id, lang) {
@@ -661,11 +675,11 @@ function switchLang(id, lang) {
   c.lang = lang;
   save();
   renderTimeline(c);
-  var next = c.msgs.find(function(m) { return m.status !== 'sent'; }) || c.msgs[c.msgs.length - 1];
+  var next = c.msgs[0];
   var pb = document.getElementById('pb-text');
   var ts = document.getElementById('pb-ts');
-  if (pb) pb.textContent = next.text;
-  if (ts) ts.textContent = next.timeDisplay;
+  if (pb && next) pb.textContent = next.text;
+  if (ts && next) ts.textContent = next.timeDisplay;
   ['es', 'en'].forEach(function(l) {
     var btn = document.getElementById('btn-' + l + '-' + id);
     if (!btn) return;
@@ -674,18 +688,7 @@ function switchLang(id, lang) {
     btn.style.background  = active ? '#06b6d415'   : 'var(--s2)';
     btn.style.color       = active ? 'var(--cyan)'  : 'var(--muted)';
   });
-  showToast(lang === 'es' ? 'Espanol' : 'English');
-}
-
-function markSent(id) {
-  var c = clients.find(function(x) { return x.id === id; });
-  var next = c.msgs.find(function(m) { return m.status !== 'sent'; });
-  if (!next) { showToast('All done!'); return; }
-  next.status = 'sent';
-  save();
-  openClient(id);
-  updateStats();
-  showToast('Marked as done!');
+  showToast(lang === 'es' ? '🇲🇽 Español' : '🇺🇸 English');
 }
 
 function resetMsgs(id) {
@@ -693,11 +696,10 @@ function resetMsgs(id) {
   c.msgs = buildMsgs(c);
   save();
   openClient(id);
-  showToast('Reset!');
+  showToast('🔄 Messages reset!');
 }
 
 function completeRemove(id) {
-  if (!confirm('Remove this client?')) return;
   removeNotifs(id);
   clients = clients.filter(function(x) { return x.id !== id; });
   save();
@@ -723,7 +725,7 @@ function saveName(id) {
   inp.style.display = 'none';
   var d = document.getElementById('pname-d-' + id);
   d.textContent = n + ' ✏️'; d.style.display = 'block';
-  renderList(); showToast('Name updated!');
+  renderList(); showToast('✅ Name updated!');
 }
 
 function editPhone(id) {
@@ -738,7 +740,7 @@ function savePhone(id) {
   var c = clients.find(function(x) { return x.id === id; });
   c.phone = n; save();
   openClient(id);
-  showToast('Phone updated!');
+  showToast('✅ Phone updated!');
 }
 
 function backToList() {
@@ -749,59 +751,145 @@ function backToList() {
 
 function clearAll() {
   if (!confirm('Clear ALL clients?')) return;
-  clients = []; save(); renderList(); showToast('Cleared'); goTab('clients');
+  clients = []; save(); renderList(); updateStats(); showToast('Cleared!'); goTab('clients');
 }
 
-// ── STATS ─────────────────────────────────────────────────────
-function updateStats() {
-  var sent = 0, pending = 0, todayCount = 0;
-  var todayStr = today();
-  var upcoming = [];
-  clients.forEach(function(c) {
-    c.msgs.forEach(function(m) {
-      if (m.status === 'sent') sent++;
-      else {
-        pending++;
-        if (m.date === todayStr) todayCount++;
-        upcoming.push({ name: c.name, label: m.label, timeDisplay: m.timeDisplay, text: m.text, date: m.date });
-      }
-    });
-  });
-  document.getElementById('st-c').textContent = clients.length;
-  document.getElementById('st-s').textContent = sent;
-  document.getElementById('st-p').textContent = pending;
-  document.getElementById('st-t').textContent = todayCount;
+// STATS
+// ── WEEKLY REPORT ─────────────────────────────────────────────
+var weekOffset = 0;
 
-  var ul = document.getElementById('upcoming');
-  if (!upcoming.length) { ul.innerHTML = '<div style="font-size:12px;color:var(--muted);padding:8px 0;">No scheduled messages</div>'; return; }
-  upcoming.sort(function(a, b) { return a.date.localeCompare(b.date); });
-  ul.innerHTML = upcoming.slice(0, 6).map(function(u) {
-    return '<div class="up-item">' +
-      '<div style="font-size:12px;font-weight:600;">' + u.name + ' <span style="color:var(--muted);font-weight:400;">· ' + u.label + '</span></div>' +
-      '<div style="font-size:10px;color:var(--cyan);margin-top:2px;">' + u.timeDisplay + '</div>' +
-      '<div style="font-size:11px;color:var(--muted);margin-top:3px;">' + u.text.substring(0, 80) + '...</div>' +
+function getWeekBounds(offset) {
+  var now = new Date();
+  var day = now.getDay(); // 0=Sun
+  var sun = new Date(now);
+  sun.setDate(now.getDate() - day + (offset * 7));
+  sun.setHours(0,0,0,0);
+  var sat = new Date(sun);
+  sat.setDate(sun.getDate() + 6);
+  sat.setHours(23,59,59,999);
+  return { start: sun, end: sat };
+}
+
+function fmtShort(d) {
+  return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+
+function shiftWeek(dir) {
+  weekOffset += dir;
+  renderWeekReport();
+}
+
+function renderWeekReport() {
+  var bounds = getWeekBounds(weekOffset);
+  var label = fmtShort(bounds.start) + ' – ' + fmtShort(bounds.end) + (weekOffset === 0 ? ' (This week)' : weekOffset === -1 ? ' (Last week)' : '');
+  document.getElementById('week-label').textContent = label;
+
+  var weekClients = clients.filter(function(c) {
+    var d = new Date(c.saleDate + 'T12:00:00');
+    return d >= bounds.start && d <= bounds.end;
+  });
+
+  var total = weekClients.length;
+  var installed = weekClients.filter(function(c) { return c.status === 'Installed'; }).length;
+  var cancelled = weekClients.filter(function(c) { return c.status === 'Cancelled'; }).length;
+  var pending   = weekClients.filter(function(c) { return c.status === 'Pending'; }).length;
+
+  var wr = document.getElementById('week-report');
+  if (!total) {
+    wr.innerHTML = '<div style="text-align:center;padding:20px;color:var(--muted);font-size:13px;">No sales this week</div>';
+    return;
+  }
+
+  // Build day-by-day breakdown
+  var days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  var byDay = [0,0,0,0,0,0,0];
+  weekClients.forEach(function(c) {
+    var d = new Date(c.saleDate + 'T12:00:00');
+    byDay[d.getDay()]++;
+  });
+
+  var dayRow = days.map(function(d, i) {
+    var n = byDay[i];
+    return '<div style="text-align:center;flex:1;">' +
+      '<div style="font-size:9px;color:var(--muted);font-weight:600;">' + d + '</div>' +
+      '<div style="font-size:16px;font-weight:800;color:' + (n > 0 ? 'var(--cyan)' : 'var(--muted)') + ';margin-top:2px;">' + (n || '·') + '</div>' +
     '</div>';
   }).join('');
+
+  // Client list for the week
+  var clientRows = weekClients.sort(function(a,b){ return a.saleDate.localeCompare(b.saleDate); }).map(function(c) {
+    var color = c.status === 'Installed' ? 'var(--green)' : c.status === 'Cancelled' ? 'var(--red)' : 'var(--yellow)';
+    var planShort = c.plan ? c.plan.split('·')[0].trim() : '';
+    return '<div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border);">' +
+      '<div>' +
+        '<div style="font-size:12px;font-weight:600;">' + c.name + '</div>' +
+        (planShort ? '<div style="font-size:10px;color:var(--muted);margin-top:1px;">' + planShort + '</div>' : '') +
+      '</div>' +
+      '<div style="font-size:10px;font-weight:700;color:' + color + ';background:' + color.replace(')',',0.1)').replace('var(','rgba(').replace('--green','16,185,129').replace('--red','239,68,68').replace('--yellow','245,158,11') + ';padding:3px 8px;border-radius:99px;">' + c.status + '</div>' +
+    '</div>';
+  }).join('');
+
+  wr.innerHTML =
+    '<div style="display:flex;margin-bottom:14px;">' + dayRow + '</div>' +
+    '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px;">' +
+      '<div style="background:#10b98115;border:1px solid #10b98130;border-radius:10px;padding:10px;text-align:center;">' +
+        '<div style="font-size:22px;font-weight:800;color:var(--green);">' + installed + '</div>' +
+        '<div style="font-size:9px;color:var(--green);font-weight:700;text-transform:uppercase;">Installed</div>' +
+      '</div>' +
+      '<div style="background:#f59e0b15;border:1px solid #f59e0b30;border-radius:10px;padding:10px;text-align:center;">' +
+        '<div style="font-size:22px;font-weight:800;color:var(--yellow);">' + pending + '</div>' +
+        '<div style="font-size:9px;color:var(--yellow);font-weight:700;text-transform:uppercase;">Pending</div>' +
+      '</div>' +
+      '<div style="background:#ef444415;border:1px solid #ef444430;border-radius:10px;padding:10px;text-align:center;">' +
+        '<div style="font-size:22px;font-weight:800;color:var(--red);">' + cancelled + '</div>' +
+        '<div style="font-size:9px;color:var(--red);font-weight:700;text-transform:uppercase;">Cancelled</div>' +
+      '</div>' +
+    '</div>' +
+    '<div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:0.6px;margin-bottom:8px;">' + total + ' Sales this week</div>' +
+    clientRows;
 }
 
-// ── TABS ─────────────────────────────────────────────────────
+function updateStats() {
+  var total = clients.length;
+  var installed = 0, pending = 0, cancelled = 0;
+
+  clients.forEach(function(c) {
+    if (c.status === 'Installed') installed++;
+    else if (c.status === 'Cancelled') cancelled++;
+    else pending++;
+  });
+
+  var pct = function(n) { return total ? Math.round((n/total)*100) + '%' : '0%'; };
+
+  document.getElementById('st-total').textContent = total;
+  document.getElementById('st-installed').textContent = installed;
+  document.getElementById('st-installed-pct').textContent = pct(installed);
+  document.getElementById('st-pending').textContent = pending;
+  document.getElementById('st-pending-pct').textContent = pct(pending);
+  document.getElementById('st-cancelled').textContent = cancelled;
+  document.getElementById('st-cancelled-pct').textContent = pct(cancelled);
+
+  renderWeekReport();
+}
+
+// TABS
 function goTab(tab) {
   ['clients', 'import', 'stats'].forEach(function(t) {
     document.getElementById('v-' + t).classList.toggle('on', t === tab);
     document.getElementById('nb-' + t).classList.toggle('on', t === tab);
   });
   if (tab === 'clients') backToList();
-  if (tab === 'stats') updateStats();
+  if (tab === 'stats') { weekOffset = 0; updateStats(); }
 }
 
-// ── TOAST ─────────────────────────────────────────────────────
+// TOAST
 function showToast(msg) {
   var t = document.getElementById('toast');
   t.textContent = msg; t.classList.add('show');
   setTimeout(function() { t.classList.remove('show'); }, 2600);
 }
 
-// ── INIT ─────────────────────────────────────────────────────
+// INIT
 clients.forEach(function(c) {
   var detected = detectLang(c.name);
   if (c.lang !== detected) {
@@ -819,7 +907,10 @@ clients.forEach(function(c) {
 save();
 renderList();
 updateStats();
-requestNotifPerm();
+
+if ('Notification' in window && Notification.permission === 'default') {
+  Notification.requestPermission();
+}
 checkNotifs();
 setInterval(checkNotifs, 30 * 60 * 1000);
 </script>
